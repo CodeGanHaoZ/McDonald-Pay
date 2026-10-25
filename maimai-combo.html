@@ -7,150 +7,188 @@
 <style>
 :root{
   --red:#DA291C; --red2:#E8412F; --yellow:#FFC72C; --yellow-d:#F2A900;
-  --ink:#221E1F; --ink-soft:#8A7B72; --cream:#FFF6E6; --paper:#FFFFFF;
-  --line:#F0E6D8; --good:#2E9E4F; --shadow:0 12px 30px rgba(140,50,25,.14);
+  --ink:#221E1F; --ink-soft:#9A8A7E; --cream:#FFF6E6; --paper:#FFFFFF;
+  --card:#FBF4E8; --line:#EBD9C2; --good:#2E9E4F; --shadow:0 14px 34px rgba(140,50,25,.12);
   --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,system-ui,sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
-body{font-family:var(--font);color:var(--ink);background:radial-gradient(130% 90% at 50% -10%,#FFE7A6 0%,#FFF6E6 40%,#F6E9D2 100%);min-height:100vh;line-height:1.5;overflow-x:hidden}
+body{font-family:var(--font);color:var(--ink);background:radial-gradient(140% 100% at 50% -12%,#FFE7A6 0%,#FFF6E6 42%,#F7EAD4 100%);min-height:100vh;line-height:1.5;overflow-x:hidden}
 a{text-decoration:none}
-.app{max-width:1120px;margin:0 auto;padding:0 18px 160px}
+.app{max-width:1120px;margin:0 auto;padding:0 18px 170px}
 
-/* 顶栏 */
-.topbar{position:sticky;top:0;z-index:45;background:linear-gradient(120deg,var(--red),var(--red2));border-radius:0 0 24px 24px;margin:0 -18px 18px;padding:13px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 8px 22px rgba(120,40,20,.28)}
-.topbar .arch{width:30px;height:34px;flex:none}
-.topbar .bn{color:#fff;font-weight:800;font-size:19px;letter-spacing:1px;flex:1 1 auto;min-width:0}
-.topbar .bn small{font-weight:600;font-size:11px;opacity:.85;margin-left:7px;letter-spacing:0}
-.topbar .nav{display:flex;gap:4px;margin-left:auto}
-.topbar .nav a{color:#fff;font-size:12.5px;font-weight:700;opacity:.82;padding:6px 13px;border-radius:999px;transition:.15s}
-.topbar .nav a:hover{background:rgba(255,255,255,.18);opacity:1}
-.topbar .store{display:flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:7px 13px;font-size:11.5px;font-weight:700;color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.12);white-space:nowrap;margin-left:auto}
-.topbar .store .pin{flex:none}
+/* ===== 顶栏（金黄主题，无拱门） ===== */
+.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#FFC72C,#FBB92B);margin:0 -18px 0;padding:11px 22px;display:flex;align-items:center;gap:13px;flex-wrap:wrap;box-shadow:0 6px 18px rgba(120,40,20,.18)}
+.brand{width:38px;height:38px;border-radius:11px;background:var(--red);display:grid;place-items:center;box-shadow:0 4px 10px rgba(218,41,28,.4);flex:none}
+.brand b{color:#fff;font-size:22px;font-weight:900;line-height:1;font-family:Georgia,serif}
+.topbar .bn{color:#3a2a10;font-weight:900;font-size:19px;letter-spacing:.5px;flex:1 1 auto;min-width:0}
+.topbar .bn small{font-weight:700;font-size:11px;opacity:.7;margin-left:7px;letter-spacing:0}
+.topbar .nav{display:flex;gap:3px;margin-left:auto}
+.topbar .nav a{color:#5a3b00;font-size:12.5px;font-weight:800;opacity:.8;padding:6px 12px;border-radius:999px;transition:.15s}
+.topbar .nav a:hover{background:rgba(255,255,255,.6);opacity:1}
+.topbar .store{display:flex;align-items:center;gap:6px;background:#fff;border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:800;color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.12);white-space:nowrap;margin-left:auto}
 .topbar .store .switch{border:none;background:var(--cream);color:var(--red);font-weight:800;border-radius:999px;padding:4px 9px;font-size:10.5px;cursor:pointer}
 
-/* Hero */
-.hero{margin:6px 2px 16px}
-.hero .kicker{display:inline-block;background:var(--yellow);color:#5a3b00;font-weight:800;font-size:12px;padding:4px 13px;border-radius:999px;transform:rotate(-2deg);box-shadow:0 3px 0 rgba(242,169,0,.5)}
-.hero h1{font-size:clamp(26px,5vw,40px);font-weight:800;line-height:1.2;margin:12px 0 6px;letter-spacing:.5px}
+/* ===== 营养计算器条 ===== */
+.nutbar{position:sticky;top:60px;z-index:42;background:#fff;border-radius:18px;box-shadow:var(--shadow);border:1px solid var(--line);padding:11px 14px;display:flex;align-items:center;gap:12px;margin:14px 0}
+.nutbar .nt{display:flex;flex-direction:column;align-items:center;padding-right:12px;border-right:1px dashed var(--line);flex:none}
+.nutbar .nt b{font-size:13px;font-weight:900;color:var(--red)}
+.nutbar .nt span{font-size:9.5px;color:var(--ink-soft);font-weight:700}
+.nutbar .nt .pulse{width:6px;height:6px;border-radius:50%;background:var(--good);margin-top:3px;animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+.nutgrid{flex:1;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;min-width:0}
+.nutcell{text-align:center;border-radius:12px;padding:5px 2px;transition:background .2s}
+.nutcell.hot{background:#FFF3E2}
+.nutcell .ni{width:20px;height:20px;margin:0 auto 2px;display:block}
+.nutcell .nv{font-size:18px;font-weight:900;color:var(--red);line-height:1;font-variant-numeric:tabular-nums}
+.nutcell .nu{font-size:9px;color:var(--ink-soft);font-weight:700}
+@media(max-width:680px){.nutbar .nt{display:none}.nutgrid{grid-template-columns:repeat(3,1fr);gap:8px}.nutcell{padding:7px 2px;border:1px solid var(--line)}}
+
+/* ===== Hero ===== */
+.hero{margin:18px 2px 10px}
+.hero .kicker{display:inline-block;background:var(--ink);color:var(--yellow);font-weight:800;font-size:11.5px;padding:4px 13px;border-radius:999px;transform:rotate(-2deg);box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.hero h1{font-size:clamp(26px,5.4vw,42px);font-weight:900;line-height:1.18;margin:12px 0 6px;letter-spacing:.3px}
 .hero h1 .hl{color:var(--red)}
-.hero p{font-size:14px;color:var(--ink-soft);max-width:660px;margin:0}
-.hero .meta{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-.hero .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12px;font-weight:700;color:var(--ink);box-shadow:0 4px 10px rgba(140,50,25,.06)}
+.hero p{font-size:14px;color:var(--ink-soft);max-width:680px;margin:0}
+.hero .meta{margin-top:13px;display:flex;gap:8px;flex-wrap:wrap}
+.hero .pill{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12px;font-weight:800;color:var(--ink);box-shadow:0 4px 10px rgba(140,50,25,.06)}
 .hero .pill b{color:var(--red)}
 
-.sec-h{display:flex;align-items:center;gap:8px;margin:30px 2px 13px}
-.sec-h .bar{width:5px;height:18px;background:var(--red);border-radius:3px}
-.sec-h h2{font-size:18px;font-weight:800;margin:0}
-.sec-h .step{margin-left:8px;background:var(--ink);color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:2px 9px}
-.sec-h .more{margin-left:auto;font-size:12px;color:var(--ink-soft)}
+.sec-h{display:flex;align-items:center;gap:9px;margin:30px 2px 14px}
+.sec-h .bar{width:5px;height:19px;background:var(--red);border-radius:3px;transform:skewX(-12deg)}
+.sec-h .ic{width:22px;height:22px}
+.sec-h h2{font-size:18px;font-weight:900;margin:0}
+.sec-h .step{margin-left:8px;background:var(--yellow);color:#5a3b00;font-size:10.5px;font-weight:900;border-radius:999px;padding:2px 9px}
+.sec-h .more{margin-left:auto;font-size:12px;color:var(--ink-soft);font-weight:700}
 
-/* 心情选择 */
-.moods{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:13px}
-.mood{background:var(--paper);border-radius:20px;padding:15px 12px;text-align:center;box-shadow:var(--shadow);border:2px solid transparent;cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s;position:relative}
-.mood:hover{transform:translateY(-3px)}
-.mood.on{border-color:var(--red);box-shadow:0 16px 34px rgba(218,41,28,.2)}
-.mood .face{width:54px;height:54px;margin:0 auto 8px}
-.mood .mname{font-weight:800;font-size:15px}
-.mood .mtag{font-size:11px;color:var(--ink-soft);margin-top:2px}
-.mood .pick{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;display:none;place-items:center;font-size:13px;font-weight:800}
+/* 入场动画 */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ===== 心情 ===== */
+.moods{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:13px}
+.mood{background:var(--card);border-radius:20px;padding:15px 12px;text-align:center;box-shadow:0 6px 16px rgba(140,50,25,.08);border:2px solid transparent;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;position:relative;overflow:hidden}
+.mood::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--mc,#FFC72C)33,transparent 60%);opacity:.14;pointer-events:none}
+.mood:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 30px rgba(140,50,25,.16)}
+.mood.on{border-color:var(--red);box-shadow:0 16px 34px rgba(218,41,28,.22)}
+.mood .face{width:54px;height:54px;margin:0 auto 8px;transition:transform .25s}
+.mood.on .face{transform:scale(1.12) rotate(-3deg)}
+.mood .mname{font-weight:900;font-size:15px}
+.mood .mtag{display:inline-block;margin-top:5px;font-size:10.5px;font-weight:800;color:#fff;background:var(--mc,#DA291C);padding:2px 10px;border-radius:999px}
+.mood .pick{position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;display:none;place-items:center;font-size:13px;font-weight:900;animation:pop .3s}
 .mood.on .pick{display:grid}
 .moodNarr{margin-top:14px;background:linear-gradient(135deg,#FFF3DA,#FFE7BE);border-radius:16px;padding:14px 16px;font-size:13.5px;color:#6b4a2a;line-height:1.7;border:1.5px dashed var(--yellow-d);min-height:20px;font-weight:600}
 
-/* 测验 */
+/* ===== 测验 ===== */
 .quiz{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
-.qcard{background:var(--paper);border-radius:20px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
-.qcard .qt{font-weight:800;font-size:14.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.qcard .qt .qn{width:24px;height:24px;background:var(--red);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:12px;flex:none}
+.qcard{background:var(--card);border-radius:20px;padding:16px;box-shadow:0 6px 16px rgba(140,50,25,.08);border:1px solid var(--line)}
+.qcard .qt{font-weight:900;font-size:14.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.qcard .qt .qn{width:24px;height:24px;background:var(--red);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:12px;flex:none;font-weight:900}
 .qopts{display:flex;flex-wrap:wrap;gap:8px}
-.qopt{flex:1 1 calc(50% - 4px);min-width:110px;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;text-align:center;transition:.14s}
-.qopt:hover{border-color:var(--yellow-d)}
+.qopt{flex:1 1 calc(50% - 4px);min-width:110px;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-size:13px;font-weight:800;color:var(--ink-soft);cursor:pointer;text-align:center;transition:.15s}
+.qopt:hover{border-color:var(--yellow-d);transform:translateY(-2px)}
 .qopt.on{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 6px 14px rgba(218,41,28,.3)}
 
-/* 转盘 */
-.wheelbox{display:flex;gap:26px;align-items:center;flex-wrap:wrap;justify-content:center;background:var(--paper);border-radius:24px;padding:24px;box-shadow:var(--shadow);border:1px solid var(--line)}
+/* ===== 转盘 ===== */
+.wheelbox{display:flex;gap:26px;align-items:center;flex-wrap:wrap;justify-content:center;background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow);border:1px solid var(--line)}
 .wheelwrap{position:relative;width:300px;height:300px;flex:none}
-.wheelwrap .hub{position:absolute;top:50%;left:50%;width:64px;height:64px;transform:translate(-50%,-50%);background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(0,0,0,.2);display:grid;place-items:center;z-index:4;border:4px solid var(--yellow)}
-.wheelwrap .hub svg{width:34px;height:34px}
+.wheelwrap .hub{position:absolute;top:50%;left:50%;width:58px;height:58px;transform:translate(-50%,-50%);background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(0,0,0,.2);display:grid;place-items:center;z-index:4;border:4px solid var(--yellow)}
+.wheelwrap .hub svg{width:26px;height:26px}
 .wheel{position:absolute;inset:0;border-radius:50%;transition:transform 4.4s cubic-bezier(.16,.84,.34,1);box-shadow:0 10px 26px rgba(140,50,25,.25),inset 0 0 0 8px #fff,inset 0 0 0 12px var(--yellow-d);background:conic-gradient(#DA291C 0 60deg,#FFC72C 60deg 120deg,#E8833A 120deg 180deg,#2E9E4F 180deg 240deg,#2C7FB8 240deg 300deg,#7B5EA7 300deg 360deg)}
-.wheel .lbl{position:absolute;top:50%;left:50%;transform-origin:0 0;font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);width:0;height:0}
+.wheel .lbl{position:absolute;top:50%;left:50%;transform-origin:0 0;font-size:12px;font-weight:900;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);width:0;height:0}
 .wheel .lbl span{position:absolute;transform:translate(-50%,-50%);white-space:nowrap}
 .pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:26px solid var(--red);z-index:6;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
 .wheelinfo{flex:1;min-width:240px}
 .wheelinfo .ws{font-size:13px;color:var(--ink-soft);margin-bottom:6px}
-.wheelinfo .wn{font-size:18px;font-weight:800;margin-bottom:10px}
-.spinbtn{background:var(--red);color:#fff;border:none;border-radius:999px;font-weight:800;font-size:16px;padding:14px 30px;cursor:pointer;box-shadow:0 8px 20px rgba(218,41,28,.42);transition:transform .12s;display:inline-flex;align-items:center;gap:8px}
+.wheelinfo .wn{font-size:18px;font-weight:900;margin-bottom:10px}
+.spinbtn{background:var(--red);color:#fff;border:none;border-radius:999px;font-weight:900;font-size:16px;padding:14px 30px;cursor:pointer;box-shadow:0 8px 20px rgba(218,41,28,.42);transition:transform .12s,box-shadow .12s;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden}
+.spinbtn::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.25);transform:translateX(-120%);transition:transform .5s}
+.spinbtn:hover::after{transform:translateX(120%)}
 .spinbtn:active{transform:scale(.96)}
 .spinbtn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 .wheelhint{font-size:12px;color:var(--ink-soft);margin-top:10px;line-height:1.6}
 
-/* 揭晓 */
-.reveal{margin-top:18px;background:linear-gradient(135deg,#FFF3DA,#FFE0C2);border-radius:22px;padding:20px;box-shadow:var(--shadow);border:2px solid var(--yellow-d);display:none}
-.reveal.show{display:block;animation:popr .5s cubic-bezier(.2,.9,.3,1.3) both}
+/* ===== 揭晓 ===== */
+.reveal-card{margin-top:18px;background:linear-gradient(135deg,#FFF3DA,#FFE0C2);border-radius:22px;padding:20px;box-shadow:var(--shadow);border:2px solid var(--yellow-d);display:none}
+.reveal-card.show{display:block;animation:popr .5s cubic-bezier(.2,.9,.3,1.3) both}
 @keyframes popr{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
-.reveal .rh{display:flex;align-items:center;gap:13px}
-.reveal .rh .face{width:54px;height:54px;flex:none}
-.reveal .rh .rt{font-weight:800;font-size:19px}
-.reveal .rh .rt small{display:block;font-weight:600;font-size:12px;color:var(--ink-soft);margin-top:2px}
-.reveal .rtag{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}
-.reveal .rtag b{background:#fff;border-radius:999px;padding:4px 12px;font-size:11.5px;font-weight:800;color:var(--red);box-shadow:0 3px 8px rgba(140,50,25,.08)}
-.reveal .rdesc{font-size:13px;color:#6b4a2a;line-height:1.7;background:rgba(255,255,255,.55);border-radius:12px;padding:11px 14px}
-.reveal .radd{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
-.reveal .radd button{background:var(--red);color:#fff;border:none;border-radius:999px;font-weight:800;font-size:14px;padding:11px 22px;cursor:pointer;box-shadow:0 6px 16px rgba(218,41,28,.34);transition:transform .12s}
-.reveal .radd button.ghost{background:#fff;color:var(--red);box-shadow:none;border:1.5px solid var(--line)}
-.reveal .radd button:active{transform:scale(.96)}
+.reveal-card .rh{display:flex;align-items:center;gap:13px}
+.reveal-card .rh .face{width:54px;height:54px;flex:none}
+.reveal-card .rh .rt{font-weight:900;font-size:19px}
+.reveal-card .rh .rt small{display:block;font-weight:700;font-size:12px;color:var(--ink-soft);margin-top:2px}
+.reveal-card .rtag{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}
+.reveal-card .rtag b{background:#fff;border-radius:999px;padding:4px 12px;font-size:11.5px;font-weight:900;color:var(--red);box-shadow:0 3px 8px rgba(140,50,25,.08)}
+.reveal-card .rdesc{font-size:13px;color:#6b4a2a;line-height:1.7;background:rgba(255,255,255,.55);border-radius:12px;padding:11px 14px}
+.reveal-card .radd{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.reveal-card .radd button{background:var(--red);color:#fff;border:none;border-radius:999px;font-weight:900;font-size:14px;padding:11px 22px;cursor:pointer;box-shadow:0 6px 16px rgba(218,41,28,.34);transition:transform .12s}
+.reveal-card .radd button.ghost{background:#fff;color:var(--red);box-shadow:none;border:1.5px solid var(--line)}
+.reveal-card .radd button:active{transform:scale(.96)}
 
-/* 构建区 */
+/* ===== 构建区 ===== */
 .builder{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;margin-top:16px;align-items:start}
 .builder>div{min-width:0}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;position:sticky;top:74px;background:transparent;z-index:5}
-.chips::-webkit-scrollbar{height:0}
-.chip2{flex:none;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 15px;font-size:12.5px;font-weight:800;color:var(--ink-soft);white-space:nowrap;cursor:pointer}
-.chip2.on{background:var(--red);color:#fff;border-color:var(--red)}
+.cats{display:flex;gap:9px;overflow-x:auto;padding:4px 2px 12px;position:sticky;top:120px;z-index:5;background:transparent}
+.cats::-webkit-scrollbar{height:0}
+.cat{flex:none;width:84px;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:10px 6px;text-align:center;cursor:pointer;transition:.16s;box-shadow:0 4px 10px rgba(140,50,25,.06)}
+.cat:hover{transform:translateY(-3px);border-color:var(--yellow-d)}
+.cat.on{background:var(--red);border-color:var(--red);box-shadow:0 8px 18px rgba(218,41,28,.3)}
+.cat .ci{width:30px;height:30px;margin:0 auto 5px;display:block}
+.cat .ct{font-size:11px;font-weight:900;color:var(--ink)}
+.cat.on .ct{color:#fff}
 .menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px}
-.mcard{background:var(--paper);border-radius:20px;padding:10px;box-shadow:0 6px 16px rgba(140,50,25,.09);border:1px solid var(--line);cursor:pointer;position:relative;transition:transform .14s,box-shadow .14s}
-.mcard:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(140,50,25,.16)}
+.mcard{background:var(--card);border-radius:20px;padding:10px;box-shadow:0 6px 16px rgba(140,50,25,.09);border:1px solid var(--line);cursor:pointer;position:relative;transition:transform .16s,box-shadow .16s,border-color .16s}
+.mcard:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 30px rgba(140,50,25,.18);border-color:var(--yellow-d)}
 .mcard:active{transform:scale(.97)}
-.mcard .frame{background:#FFF8EC;border-radius:14px;padding:9px;position:relative}
-.mcard .pic{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 4px 7px rgba(0,0,0,.08))}
-.mcard .badge{position:absolute;top:6px;right:6px;width:30px;height:30px;transform:rotate(8deg);z-index:4}
-.mcard .nm{font-size:13px;font-weight:800;line-height:1.35;margin:8px 3px 4px;height:34px;overflow:hidden}
+.mcard .frame{background:#FFF8EC;border-radius:14px;padding:9px;position:relative;overflow:hidden}
+.mcard .frame::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,199,44,.12),transparent 55%)}
+.mcard .pic{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 4px 7px rgba(0,0,0,.08));position:relative}
+.mcard .nm{font-size:13px;font-weight:900;line-height:1.35;margin:8px 3px 4px;height:34px;overflow:hidden}
 .mcard .pr{display:flex;align-items:baseline;gap:5px;margin:0 3px}
-.mcard .pr b{color:var(--red);font-size:18px;font-weight:800}
+.mcard .pr b{color:var(--red);font-size:18px;font-weight:900}
 .mcard .pr b i{font-size:12px;font-style:normal}
 .mcard .pr s{color:#B7A99A;font-size:11.5px}
-.mcard .add{position:absolute;right:10px;bottom:10px;width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;box-shadow:0 5px 12px rgba(218,41,28,.42);font-size:20px;font-weight:800;line-height:1}
-.mcard .sticker{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 9px;transform:rotate(-4deg);border-radius:5px;box-shadow:0 2px 5px rgba(218,41,28,.35);white-space:nowrap;z-index:3}
+.mcard .add{position:absolute;right:10px;bottom:10px;width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;box-shadow:0 5px 12px rgba(218,41,28,.42);font-size:21px;font-weight:900;line-height:1;transition:transform .12s}
+.mcard:active .add{transform:scale(.85)}
+.mcard .sticker{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:10px;font-weight:900;padding:2px 9px;transform:rotate(-4deg);border-radius:5px;box-shadow:0 2px 5px rgba(218,41,28,.35);white-space:nowrap;z-index:3}
 
 /* 拼盘侧栏 */
-.aside{position:sticky;top:84px}
-.plate{background:var(--paper);border:2.5px dashed var(--yellow-d);border-radius:20px;padding:13px;min-height:80px;box-shadow:var(--shadow);transition:background .15s}
+.aside{position:sticky;top:128px}
+.plate{background:var(--paper);border:2.5px dashed var(--yellow-d);border-radius:20px;padding:13px;min-height:80px;box-shadow:var(--shadow);transition:background .15s,border-color .15s}
 .plate.drag{border-color:var(--red);background:#FFF6E6}
-.plate .ph{text-align:center;color:var(--ink-soft);font-size:12.5px;padding:22px 8px;font-weight:600}
+.plate .ph{text-align:center;color:var(--ink-soft);font-size:12.5px;padding:22px 8px;font-weight:700}
 .pitem{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);animation:pop .3s}
 @keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 .pitem:last-child{border-bottom:none}
 .pitem .pf{width:32px;height:32px;flex:none}
-.pitem .pn{flex:1;font-size:13px;font-weight:800;line-height:1.25}
-.pitem .pn small{display:block;font-weight:600;font-size:10.5px;color:var(--ink-soft)}
-.pitem .pp{font-size:13px;font-weight:800;color:var(--red);min-width:46px;text-align:right}
+.pitem .pn{flex:1;font-size:13px;font-weight:900;line-height:1.25}
+.pitem .pn small{display:block;font-weight:700;font-size:10.5px;color:var(--ink-soft)}
+.pitem .pp{font-size:13px;font-weight:900;color:var(--red);min-width:46px;text-align:right}
 .stepper{display:flex;align-items:center;gap:8px}
-.stepper button{width:25px;height:25px;border:none;border-radius:8px;background:var(--cream);color:var(--ink);font-weight:800;font-size:15px;cursor:pointer}
-.stepper .q{font-size:13px;font-weight:800;min-width:15px;text-align:center}
+.stepper button{width:25px;height:25px;border:none;border-radius:8px;background:var(--cream);color:var(--ink);font-weight:900;font-size:15px;cursor:pointer;transition:transform .1s}
+.stepper button:active{transform:scale(.85)}
+.stepper .q{font-size:13px;font-weight:900;min-width:15px;text-align:center}
 .totbar{margin-top:13px;background:var(--ink);border-radius:18px;padding:13px 16px;display:flex;align-items:center;gap:12px;color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.22)}
 .totbar .t{font-size:11px;opacity:.8}
-.totbar .pv{font-size:23px;font-weight:800}
-.totbar .sv{font-size:11px;color:var(--yellow);font-weight:800}
-.totbar .go{margin-left:auto;background:var(--yellow);color:#5a3b00;border:none;border-radius:999px;font-weight:800;font-size:15px;padding:12px 22px;display:flex;align-items:center;gap:6px;box-shadow:0 6px 16px rgba(242,169,0,.5);cursor:pointer;transition:transform .12s}
+.totbar .pv{font-size:23px;font-weight:900}
+.totbar .sv{font-size:11px;color:var(--yellow);font-weight:900}
+.totbar .go{margin-left:auto;background:var(--yellow);color:#5a3b00;border:none;border-radius:999px;font-weight:900;font-size:15px;padding:12px 22px;display:flex;align-items:center;gap:6px;box-shadow:0 6px 16px rgba(242,169,0,.5);cursor:pointer;transition:transform .12s}
 .totbar .go:active{transform:scale(.96)}
 .legend{margin-top:11px;font-size:11px;color:var(--ink-soft);text-align:center;line-height:1.6}
+
+/* 右侧悬浮工具栏 */
+.vbar{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:36;background:#fff;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.18);border:1px solid var(--line);padding:8px;display:flex;flex-direction:column;gap:4px}
+.vbar .vi{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;cursor:pointer;transition:.15s;position:relative}
+.vbar .vi:hover{background:var(--cream);transform:scale(1.08)}
+.vbar .vi svg{width:24px;height:24px}
+.vbar .vt{display:none}
+.vbar .sep{height:1px;background:var(--line);margin:3px 4px}
 
 /* 角色气泡 */
 .mascot{position:fixed;right:14px;bottom:16px;max-width:min(330px,72vw);display:flex;align-items:flex-end;gap:9px;z-index:35;pointer-events:none;transition:opacity .3s}
 .mascot.hide{opacity:0}
 .mascot .mface{width:50px;height:50px;flex:none;filter:drop-shadow(0 5px 10px rgba(0,0,0,.22));animation:bob 2.4s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.bubble{background:#fff;border-radius:16px;padding:10px 14px;font-size:12.5px;font-weight:700;line-height:1.5;box-shadow:0 8px 20px rgba(0,0,0,.16);position:relative;max-width:250px}
+.bubble{background:#fff;border-radius:16px;padding:10px 14px;font-size:12.5px;font-weight:800;line-height:1.5;box-shadow:0 8px 20px rgba(0,0,0,.16);position:relative;max-width:250px}
 .bubble::before{content:"";position:absolute;right:-7px;bottom:14px;width:14px;height:14px;background:#fff;border-radius:3px;transform:rotate(45deg)}
 .bubble.cheer{background:var(--red);color:#fff}
 .bubble.cheer::before{background:var(--red)}
@@ -164,26 +202,30 @@ a{text-decoration:none}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .receipt{width:100%;max-width:330px;background:#fff;color:#221E1F;border-radius:12px;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.45);transform:translateY(30px) scale(.94);animation:popr .42s cubic-bezier(.2,.9,.3,1.3) forwards;max-height:86vh;overflow:auto}
 .receipt .rtop{background:var(--red);color:#fff;text-align:center;padding:16px 10px 18px;position:relative}
-.receipt .rtop .arch{margin:0 auto 5px;display:block}
-.receipt .rtop h3{margin:0;font-size:16px;font-weight:800}
+.receipt .rtop .star{margin:0 auto 5px;display:block}
+.receipt .rtop h3{margin:0;font-size:16px;font-weight:900}
 .receipt .rtop p{margin:3px 0 0;font-size:10.5px;opacity:.92}
 .receipt .rbody{padding:15px 17px}
-.receipt .rtitle{text-align:center;font-weight:800;margin:2px 0 9px;color:var(--red)}
+.receipt .rtitle{text-align:center;font-weight:900;margin:2px 0 9px;color:var(--red)}
 .receipt .rrow{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px dashed #eee}
-.receipt .rrow .rn{font-weight:600}
-.receipt .rrow .rp{font-weight:800;color:var(--red)}
-.receipt .rtot{display:flex;justify-content:space-between;font-size:14px;font-weight:800;padding:12px 0 4px}
+.receipt .rrow .rn{font-weight:700}
+.receipt .rrow .rp{font-weight:900;color:var(--red)}
+.receipt .rtot{display:flex;justify-content:space-between;font-size:14px;font-weight:900;padding:12px 0 4px}
 .receipt .rnote{font-size:10.5px;color:var(--ink-soft);text-align:center;margin-top:10px;line-height:1.7}
-.receipt .stamp{position:absolute;right:16px;top:100px;width:86px;height:86px;border:3px solid var(--red);border-radius:50%;color:var(--red);display:grid;place-items:center;text-align:center;font-weight:800;font-size:14px;line-height:1.2;transform:rotate(-14deg);opacity:.92}
+.receipt .stamp{position:absolute;right:16px;top:100px;width:86px;height:86px;border:3px solid var(--red);border-radius:50%;color:var(--red);display:grid;place-items:center;text-align:center;font-weight:900;font-size:14px;line-height:1.2;transform:rotate(-14deg);opacity:.92}
 .receipt .rclose{margin:6px 17px 17px}
-.receipt .rclose button{width:100%;background:var(--red);color:#fff;border:none;border-radius:999px;padding:13px;font-weight:800;font-size:14px;cursor:pointer}
+.receipt .rclose button{width:100%;background:var(--red);color:#fff;border:none;border-radius:999px;padding:13px;font-weight:900;font-size:14px;cursor:pointer}
 .fly{position:fixed;z-index:80;width:54px;height:54px;pointer-events:none;border-radius:12px;object-fit:contain;background:#FFF8EC;box-shadow:0 6px 16px rgba(0,0,0,.2)}
 
+@media(min-width:981px){
+  .app{padding-right:64px}
+}
 @media(max-width:980px){
   .builder{grid-template-columns:1fr}
   .aside{position:static;margin-top:18px}
-  .chips{top:64px}
+  .cats{top:64px}
   .wheelbox{padding:18px}
+  .vbar{display:none}
 }
 @media(max-width:760px){
   .topbar .nav{display:none}
@@ -191,7 +233,7 @@ a{text-decoration:none}
 }
 @media(max-width:560px){
   .mascot{display:none}
-  .topbar{padding:11px 16px}
+  .topbar{padding:10px 16px}
   .menu{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
   .hero h1{font-size:26px}
 }
@@ -200,7 +242,7 @@ a{text-decoration:none}
 <body>
 <div class="app">
   <div class="topbar">
-    <svg class="arch" viewBox="0 0 30 34"><path d="M3 33V14c0-6 4-10 9-10s9 4 9 10v19" fill="none" stroke="#FFC72C" stroke-width="5" stroke-linecap="round"/></svg>
+    <div class="brand"><b>M</b></div>
     <span class="bn">麦麦今日剧本<small>心情点餐剧场</small></span>
     <nav class="nav">
       <a href="#sec-mood">选心情</a>
@@ -209,10 +251,15 @@ a{text-decoration:none}
       <a href="#sec-make">戏台</a>
     </nav>
     <div class="store">
-      <svg class="pin" width="16" height="16" viewBox="0 0 20 20"><path d="M10 1C6 1 3 4 3 8c0 5 7 11 7 11s7-6 7-11c0-4-3-7-7-7z" fill="#DA291C"/><circle cx="10" cy="8" r="2.6" fill="#fff"/></svg>
+      <svg width="16" height="16" viewBox="0 0 20 20"><path d="M10 1C6 1 3 4 3 8c0 5 7 11 7 11s7-6 7-11c0-4-3-7-7-7z" fill="#DA291C"/><circle cx="10" cy="8" r="2.6" fill="#fff"/></svg>
       <span id="storeName">--</span>
       <button class="switch">切换</button>
     </div>
+  </div>
+
+  <div class="nutbar reveal">
+    <div class="nt"><b>营养计算器</b><span>实时</span><div class="pulse"></div></div>
+    <div class="nutgrid" id="nutgrid"></div>
   </div>
 
   <div class="hero">
@@ -227,18 +274,18 @@ a{text-decoration:none}
     </div>
   </div>
 
-  <div class="sec-h" id="sec-mood"><span class="bar"></span><h2>第一步 · 选个心情</h2><span class="step">MOOD</span></div>
+  <div class="sec-h reveal" id="sec-mood"><span class="bar"></span><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFC72C"/><circle cx="9" cy="10" r="1.6" fill="#221E1F"/><circle cx="15" cy="10" r="1.6" fill="#221E1F"/><path d="M8.5 14.5q3.5 3 7 0" stroke="#221E1F" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><h2>第一步 · 选个心情</h2><span class="step">MOOD</span></div>
   <div class="moods" id="moods"></div>
   <div class="moodNarr" id="moodNarr">还没选心情？先点上面一张脸，让今天的人设亮起来。</div>
 
-  <div class="sec-h" id="sec-quiz"><span class="bar"></span><h2>第二步 · 答 3 题，麦麦读你</h2><span class="step">QUIZ</span></div>
+  <div class="sec-h reveal" id="sec-quiz"><span class="bar"></span><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="#DA291C"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg><h2>第二步 · 答 3 题，麦麦读你</h2><span class="step">QUIZ</span></div>
   <div class="quiz" id="quiz"></div>
 
-  <div class="sec-h" id="sec-wheel"><span class="bar"></span><h2>第三步 · 转大转盘，揭晓今日剧本</h2><span class="step">SPIN</span></div>
-  <div class="wheelbox">
+  <div class="sec-h reveal" id="sec-wheel"><span class="bar"></span><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#E8833A" stroke-width="2.4"/><path d="M12 12l5-3" stroke="#E8833A" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#E8833A"/></svg><h2>第三步 · 转大转盘，揭晓今日剧本</h2><span class="step">SPIN</span></div>
+  <div class="wheelbox reveal">
     <div class="wheelwrap">
       <div class="pointer"></div>
-      <div class="wheel" id="wheel"><div class="hub"><svg viewBox="0 0 30 34"><path d="M3 33V14c0-6 4-10 9-10s9 4 9 10v19" fill="none" stroke="#FFC72C" stroke-width="5" stroke-linecap="round"/></svg></div></div>
+      <div class="wheel" id="wheel"><div class="hub"><svg viewBox="0 0 24 24"><path d="M12 3l3 7 7 .5-5.5 4.5 2 7L12 18l-6.5 4 2-7L2 10.5 9 10z" fill="#DA291C"/></svg></div></div>
     </div>
     <div class="wheelinfo">
       <div class="ws">转盘上的六出戏，对应六种心情——</div>
@@ -251,7 +298,7 @@ a{text-decoration:none}
     </div>
   </div>
 
-  <div class="reveal" id="reveal">
+  <div class="reveal-card" id="reveal">
     <div class="rh">
       <div class="face" id="rFace"></div>
       <div class="rt" id="rTitle">--<small id="rSub"></small></div>
@@ -264,10 +311,10 @@ a{text-decoration:none}
     </div>
   </div>
 
-  <div class="sec-h" id="sec-make"><span class="bar"></span><h2>戏台上的吃食 · 可微调</h2><span class="more">真实菜单 · 营养数据</span></div>
+  <div class="sec-h reveal" id="sec-make"><span class="bar"></span><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16v4H4zM5 13h14v6H5z" fill="#2E9E4F"/></svg><h2>戏台上的吃食 · 可微调</h2><span class="more">真实菜单 · 营养数据</span></div>
   <div class="builder">
     <div>
-      <div class="chips" id="chips"></div>
+      <div class="cats" id="cats"></div>
       <div class="menu" id="menu"></div>
     </div>
     <div class="aside">
@@ -284,14 +331,32 @@ a{text-decoration:none}
   </div>
 </div>
 
+<div class="vbar">
+  <div class="vi" data-toast="麦乐送 · 示例入口" title="麦乐送"><svg viewBox="0 0 24 24"><path d="M3 7h13v8H3z" fill="none" stroke="#DA291C" stroke-width="2"/><path d="M16 10h4l1 3v2h-5z" fill="none" stroke="#DA291C" stroke-width="2"/><circle cx="7" cy="17" r="1.6" fill="#DA291C"/><circle cx="18" cy="17" r="1.6" fill="#DA291C"/></svg></div>
+  <div class="vi" data-toast="新优惠 · 示例入口" title="新优惠"><svg viewBox="0 0 24 24"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z" fill="none" stroke="#FFC72C" stroke-width="2"/><path d="M14 6v12" stroke="#FFC72C" stroke-width="2" stroke-dasharray="2 2"/></svg></div>
+  <div class="vi" data-toast="找餐厅 · 示例入口" title="找餐厅"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z" fill="none" stroke="#DA291C" stroke-width="2"/><circle cx="12" cy="9" r="2.4" fill="#DA291C"/></svg></div>
+  <div class="vi" data-toast="Q&A · 示例入口" title="Q&A"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#FFC72C" stroke-width="2"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 .9-1 1.7" stroke="#FFC72C" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="17" r="1.1" fill="#FFC72C"/></svg></div>
+  <div class="sep"></div>
+  <div class="vi" id="toTop" title="回到顶部"><svg viewBox="0 0 24 24"><path d="M12 5l-6 7h4v7h4v-7h4z" fill="#2E9E4F"/></svg></div>
+</div>
+
 <div class="mascot hide" id="mascot"><div class="bubble" id="bubble"></div><div class="mface" id="mface"></div></div>
 <div id="confetti"></div>
 <div class="overlay" id="overlay"><div class="receipt" id="receipt"></div></div>
 
 <script>
-const DATA = {"store": {"name": "麦当劳广州海珠广场餐厅", "code": "1400067"}, "items": [{"cat": "人气热卖", "code": "1100", "name": "巨无霸", "price": 25.5, "orig": 25.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_1100_320.png", "color": "#DA291C", "nut": [513, 27, 26, 42, 961], "dessert": false, "share": false, "serv": 1, "cal": 513, "pro": 27}, {"cat": "人气热卖", "code": "9900015151", "name": "麦麦周末双人餐", "price": 49.9, "orig": 85.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900015151_320.gif", "color": "#FFC72C", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "人气热卖", "code": "9900011056", "name": "全明星双人分享餐八件套", "price": 49.9, "orig": 114.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_9900011056_320.gif", "color": "#2E7D32", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "鸡肉汉堡/卷", "code": "1440", "name": "麦辣鸡腿汉堡", "price": 22.5, "orig": 22.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260325/product/MS_1440_320.png", "color": "#2980B9", "nut": [485, 24, 24, 42, 1208], "dessert": false, "share": false, "serv": 1, "cal": 485, "pro": 24}, {"cat": "鸡肉汉堡/卷", "code": "1406", "name": "板烧鸡腿堡", "price": 23.5, "orig": 23.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20241008/product/MS_1406_320.png", "color": "#8E44AD", "nut": [391, 23, 17, 35, 1041], "dessert": false, "share": false, "serv": 1, "cal": 391, "pro": 23}, {"cat": "鸡肉汉堡/卷", "code": "1450", "name": "麦香鸡", "price": 17, "orig": 17, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_1450_320.png", "color": "#E67E22", "nut": [369, 15, 17, 39, 731], "dessert": false, "share": false, "serv": 1, "cal": 369, "pro": 15}, {"cat": "鸡肉汉堡/卷", "code": "9900005456", "name": "麦辣鸡腿汉堡三件套", "price": 33.5, "orig": 46, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_G504968_320.png", "color": "#16A085", "nut": null, "dessert": false, "share": false, "serv": 1, "cal": null, "pro": null}, {"cat": "巨无霸牛鱼肉堡", "code": "1600", "name": "麦香鱼", "price": 22.5, "orig": 22.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_1600_320.png", "color": "#C0392B", "nut": [325, 16, 13, 35, 556], "dessert": false, "share": false, "serv": 1, "cal": 325, "pro": 16}, {"cat": "巨无霸牛鱼肉堡", "code": "4648", "name": "不素之霸双层牛堡", "price": 26.5, "orig": 26.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_4648_320.png", "color": "#27AE60", "nut": [493, 28, 27, 34, 1012], "dessert": false, "share": false, "serv": 1, "cal": 493, "pro": 28}, {"cat": "巨无霸牛鱼肉堡", "code": "1120", "name": "双层吉士汉堡", "price": 23, "orig": 23, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_1120_320.png", "color": "#D35400", "nut": [429, 27, 22, 31, 1017], "dessert": false, "share": false, "serv": 1, "cal": 429, "pro": 27}, {"cat": "巨无霸牛鱼肉堡", "code": "9900003586", "name": "双层深海鳕鱼堡", "price": 24, "orig": 24, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_9900003586_320.png", "color": "#DA291C", "nut": [485, 28, 21, 46, 917], "dessert": false, "share": false, "serv": 1, "cal": 485, "pro": 28}, {"cat": "安格斯MAX", "code": "511781", "name": "培根安格斯厚牛堡", "price": 34.5, "orig": 34.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_511781_320.png", "color": "#FFC72C", "nut": [707, 34, 44, 43, 1037], "dessert": false, "share": false, "serv": 1, "cal": 707, "pro": 34}, {"cat": "安格斯MAX", "code": "511782", "name": "芝士安格斯厚牛堡", "price": 31.5, "orig": 31.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_511782_320.png", "color": "#2E7D32", "nut": [696, 32, 44, 43, 897], "dessert": false, "share": false, "serv": 1, "cal": 696, "pro": 32}, {"cat": "小食甜品/其他", "code": "4810", "name": "薯条", "price": 13.5, "orig": 13.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20250523/product/MS_G4810_320_1747877491921.png", "color": "#2980B9", "nut": [289, 4, 12, 38, 165], "dessert": true, "share": false, "serv": 1, "cal": 289, "pro": 4}, {"cat": "小食甜品/其他", "code": "1401", "name": "麦乐鸡", "price": 14, "orig": 14, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260529/product/MS_G1401_320.png", "color": "#8E44AD", "nut": [213, 12, 12, 13, 422], "dessert": true, "share": false, "serv": 1, "cal": 213, "pro": 12}, {"cat": "小食甜品/其他", "code": "6102", "name": "苹果片", "price": 7, "orig": 7, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_6102_320.png", "color": "#E67E22", "nut": [32, 0, 0, 7, 0], "dessert": true, "share": false, "serv": 1, "cal": 32, "pro": 0}, {"cat": "小食甜品/其他", "code": "515837", "name": "圆筒冰淇淋", "price": 5, "orig": 5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G515837_320.png", "color": "#16A085", "nut": [93, 2, 3, 14, 36], "dessert": true, "share": false, "serv": 1, "cal": 93, "pro": 2}, {"cat": "小食甜品/其他", "code": "9900008754", "name": "经典麦旋风", "price": 15.5, "orig": 15.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G9900008754_320.gif", "color": "#C0392B", "nut": [266, 5, 9, 40, 116], "dessert": true, "share": false, "serv": 1, "cal": 266, "pro": 5}, {"cat": "小食甜品/其他", "code": "9900008752", "name": "派", "price": 8.5, "orig": 8.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G9900008752_320.gif", "color": "#27AE60", "nut": [232, 2, 12, 28, 159], "dessert": true, "share": false, "serv": 1, "cal": 232, "pro": 2}, {"cat": "炸鸡", "code": "1700", "name": "麦辣鸡翅", "price": 15, "orig": 15, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260325/product/MS_G1700_320.png", "color": "#D35400", "nut": [224, 13, 15, 9, 537], "dessert": false, "share": false, "serv": 1, "cal": 224, "pro": 13}, {"cat": "炸鸡", "code": "520445", "name": "薄皮焦香V翅", "price": 16, "orig": 16, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20241202/product/MS_520445_320.png", "color": "#DA291C", "nut": [192, 17, 11, 6, 594], "dessert": false, "share": false, "serv": 1, "cal": 192, "pro": 17}, {"cat": "炸鸡", "code": "521156", "name": "那么大鸡排（椒盐风味）", "price": 14, "orig": 14, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_521156_320.png", "color": "#FFC72C", "nut": [385, 24, 21, 24, 996], "dessert": false, "share": false, "serv": 1, "cal": 385, "pro": 24}, {"cat": "饮品", "code": "9900008751", "name": "可乐", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900008751_320.gif", "color": "#2E7D32", "nut": [147, 0, 0, 36, 0], "dessert": false, "share": false, "serv": 1, "cal": 147, "pro": 0}, {"cat": "饮品", "code": "3010", "name": "雪碧", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G3010_320.png", "color": "#2980B9", "nut": [105, 0, 0, 26, 29], "dessert": false, "share": false, "serv": 1, "cal": 105, "pro": 0}, {"cat": "饮品", "code": "3755", "name": "纯牛奶(盒装)", "price": 10.5, "orig": 10.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20240731/product/MS_3755_320.png", "color": "#8E44AD", "nut": [129, 7, 7, 10, 73], "dessert": false, "share": false, "serv": 1, "cal": 129, "pro": 7}, {"cat": "饮品", "code": "515281", "name": "阳光柠檬红茶", "price": 10, "orig": 10, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G515280_320.png", "color": "#E67E22", "nut": [117, 0, 0, 29, 17], "dessert": false, "share": false, "serv": 1, "cal": 117, "pro": 0}, {"cat": "饮品", "code": "520689", "name": "鲜萃咖啡", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_G520688_320.gif", "color": "#16A085", "nut": [13, 1, 0, 0, 3], "dessert": false, "share": false, "serv": 1, "cal": 13, "pro": 1}, {"cat": "饮品", "code": "3505", "name": "锡兰红茶", "price": 11.5, "orig": 11.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_3505_320.png", "color": "#C0392B", "nut": [2, 0, 0, 0, 0], "dessert": false, "share": false, "serv": 1, "cal": 2, "pro": 0}, {"cat": "开心乐园", "code": "9900016056", "name": "麦乐鸡开心乐园餐", "price": 25, "orig": 25, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016056_320.png", "color": "#27AE60", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "开心乐园", "code": "9900016057", "name": "汉堡开心乐园餐", "price": 23.5, "orig": 23.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016057_320.png", "color": "#D35400", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "早餐", "code": "521730", "name": "枫糖风味厚松饼猪柳蛋堡", "price": 22, "orig": 22, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_521730_320.png", "color": "#DA291C", "nut": [387, 23, 21, 25, 846], "dessert": false, "share": false, "serv": 1, "cal": 387, "pro": 23}]};
+const DATA = {"store": {"name": "麦当劳广州海珠广场餐厅", "code": "1400067"}, "items": [{"cat": "人气热卖", "code": "1100", "name": "巨无霸", "price": 25.5, "orig": 25.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_1100_320.png", "color": "#DA291C", "nut": [513, 27, 26, 42, 961, 171], "dessert": false, "share": false, "serv": 1, "cal": 513, "pro": 27, "fat": 26, "carb": 42, "sod": 961, "calc": 171}, {"cat": "人气热卖", "code": "9900015151", "name": "麦麦周末双人餐", "price": 49.9, "orig": 85.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900015151_320.gif", "color": "#FFC72C", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null, "fat": null, "carb": null, "sod": null, "calc": null}, {"cat": "人气热卖", "code": "9900011056", "name": "全明星双人分享餐八件套", "price": 49.9, "orig": 114.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_9900011056_320.gif", "color": "#2E7D32", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null, "fat": null, "carb": null, "sod": null, "calc": null}, {"cat": "鸡肉汉堡/卷", "code": "1440", "name": "麦辣鸡腿汉堡", "price": 22.5, "orig": 22.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260325/product/MS_1440_320.png", "color": "#2980B9", "nut": [485, 24, 24, 42, 1208, 154], "dessert": false, "share": false, "serv": 1, "cal": 485, "pro": 24, "fat": 24, "carb": 42, "sod": 1208, "calc": 154}, {"cat": "鸡肉汉堡/卷", "code": "1406", "name": "板烧鸡腿堡", "price": 23.5, "orig": 23.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20241008/product/MS_1406_320.png", "color": "#8E44AD", "nut": [391, 23, 17, 35, 1041, 93], "dessert": false, "share": false, "serv": 1, "cal": 391, "pro": 23, "fat": 17, "carb": 35, "sod": 1041, "calc": 93}, {"cat": "鸡肉汉堡/卷", "code": "1450", "name": "麦香鸡", "price": 17, "orig": 17, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_1450_320.png", "color": "#E67E22", "nut": [369, 15, 17, 39, 731, 73], "dessert": false, "share": false, "serv": 1, "cal": 369, "pro": 15, "fat": 17, "carb": 39, "sod": 731, "calc": 73}, {"cat": "鸡肉汉堡/卷", "code": "9900005456", "name": "麦辣鸡腿汉堡三件套", "price": 33.5, "orig": 46, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_G504968_320.png", "color": "#16A085", "nut": null, "dessert": false, "share": false, "serv": 1, "cal": null, "pro": null, "fat": null, "carb": null, "sod": null, "calc": null}, {"cat": "巨无霸牛鱼肉堡", "code": "1600", "name": "麦香鱼", "price": 22.5, "orig": 22.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_1600_320.png", "color": "#C0392B", "nut": [325, 16, 13, 35, 556, 99], "dessert": false, "share": false, "serv": 1, "cal": 325, "pro": 16, "fat": 13, "carb": 35, "sod": 556, "calc": 99}, {"cat": "巨无霸牛鱼肉堡", "code": "4648", "name": "不素之霸双层牛堡", "price": 26.5, "orig": 26.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_4648_320.png", "color": "#27AE60", "nut": [493, 28, 27, 34, 1012, 75], "dessert": false, "share": false, "serv": 1, "cal": 493, "pro": 28, "fat": 27, "carb": 34, "sod": 1012, "calc": 75}, {"cat": "巨无霸牛鱼肉堡", "code": "1120", "name": "双层吉士汉堡", "price": 23, "orig": 23, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_1120_320.png", "color": "#D35400", "nut": [429, 27, 22, 31, 1017, 232], "dessert": false, "share": false, "serv": 1, "cal": 429, "pro": 27, "fat": 22, "carb": 31, "sod": 1017, "calc": 232}, {"cat": "巨无霸牛鱼肉堡", "code": "9900003586", "name": "双层深海鳕鱼堡", "price": 24, "orig": 24, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_9900003586_320.png", "color": "#DA291C", "nut": [485, 28, 21, 46, 917, 147], "dessert": false, "share": false, "serv": 1, "cal": 485, "pro": 28, "fat": 21, "carb": 46, "sod": 917, "calc": 147}, {"cat": "安格斯MAX", "code": "511781", "name": "培根安格斯厚牛堡", "price": 34.5, "orig": 34.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_511781_320.png", "color": "#FFC72C", "nut": [707, 34, 44, 43, 1037, 161], "dessert": false, "share": false, "serv": 1, "cal": 707, "pro": 34, "fat": 44, "carb": 43, "sod": 1037, "calc": 161}, {"cat": "安格斯MAX", "code": "511782", "name": "芝士安格斯厚牛堡", "price": 31.5, "orig": 31.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_511782_320.png", "color": "#2E7D32", "nut": [696, 32, 44, 43, 897, 150], "dessert": false, "share": false, "serv": 1, "cal": 696, "pro": 32, "fat": 44, "carb": 43, "sod": 897, "calc": 150}, {"cat": "小食甜品/其他", "code": "4810", "name": "薯条", "price": 13.5, "orig": 13.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20250523/product/MS_G4810_320_1747877491921.png", "color": "#2980B9", "nut": [289, 4, 12, 38, 165, 0], "dessert": true, "share": false, "serv": 1, "cal": 289, "pro": 4, "fat": 12, "carb": 38, "sod": 165, "calc": 0}, {"cat": "小食甜品/其他", "code": "1401", "name": "麦乐鸡", "price": 14, "orig": 14, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260529/product/MS_G1401_320.png", "color": "#8E44AD", "nut": [213, 12, 12, 13, 422, 0], "dessert": true, "share": false, "serv": 1, "cal": 213, "pro": 12, "fat": 12, "carb": 13, "sod": 422, "calc": 0}, {"cat": "小食甜品/其他", "code": "6102", "name": "苹果片", "price": 7, "orig": 7, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_6102_320.png", "color": "#E67E22", "nut": [32, 0, 0, 7, 0, 18], "dessert": true, "share": false, "serv": 1, "cal": 32, "pro": 0, "fat": 0, "carb": 7, "sod": 0, "calc": 18}, {"cat": "小食甜品/其他", "code": "515837", "name": "圆筒冰淇淋", "price": 5, "orig": 5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G515837_320.png", "color": "#16A085", "nut": [93, 2, 3, 14, 36, 77], "dessert": true, "share": false, "serv": 1, "cal": 93, "pro": 2, "fat": 3, "carb": 14, "sod": 36, "calc": 77}, {"cat": "小食甜品/其他", "code": "9900008754", "name": "经典麦旋风", "price": 15.5, "orig": 15.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G9900008754_320.gif", "color": "#C0392B", "nut": [266, 5, 9, 40, 116, 0], "dessert": true, "share": false, "serv": 1, "cal": 266, "pro": 5, "fat": 9, "carb": 40, "sod": 116, "calc": 0}, {"cat": "小食甜品/其他", "code": "9900008752", "name": "派", "price": 8.5, "orig": 8.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G9900008752_320.gif", "color": "#27AE60", "nut": [232, 2, 12, 28, 159, 0], "dessert": true, "share": false, "serv": 1, "cal": 232, "pro": 2, "fat": 12, "carb": 28, "sod": 159, "calc": 0}, {"cat": "炸鸡", "code": "1700", "name": "麦辣鸡翅", "price": 15, "orig": 15, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260325/product/MS_G1700_320.png", "color": "#D35400", "nut": [224, 13, 15, 9, 537, 0], "dessert": false, "share": false, "serv": 1, "cal": 224, "pro": 13, "fat": 15, "carb": 9, "sod": 537, "calc": 0}, {"cat": "炸鸡", "code": "520445", "name": "薄皮焦香V翅", "price": 16, "orig": 16, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20241202/product/MS_520445_320.png", "color": "#DA291C", "nut": [192, 17, 11, 6, 594, 15], "dessert": false, "share": false, "serv": 1, "cal": 192, "pro": 17, "fat": 11, "carb": 6, "sod": 594, "calc": 15}, {"cat": "炸鸡", "code": "521156", "name": "那么大鸡排（椒盐风味）", "price": 14, "orig": 14, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_521156_320.png", "color": "#FFC72C", "nut": [385, 24, 21, 24, 996, 0], "dessert": false, "share": false, "serv": 1, "cal": 385, "pro": 24, "fat": 21, "carb": 24, "sod": 996, "calc": 0}, {"cat": "饮品", "code": "9900008751", "name": "可乐", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900008751_320.gif", "color": "#2E7D32", "nut": [147, 0, 0, 36, 0, 0], "dessert": false, "share": false, "serv": 1, "cal": 147, "pro": 0, "fat": 0, "carb": 36, "sod": 0, "calc": 0}, {"cat": "饮品", "code": "3010", "name": "雪碧", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G3010_320.png", "color": "#2980B9", "nut": [105, 0, 0, 26, 29, 0], "dessert": false, "share": false, "serv": 1, "cal": 105, "pro": 0, "fat": 0, "carb": 26, "sod": 29, "calc": 0}, {"cat": "饮品", "code": "3755", "name": "纯牛奶(盒装)", "price": 10.5, "orig": 10.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20240731/product/MS_3755_320.png", "color": "#8E44AD", "nut": [129, 7, 7, 10, 73, 0], "dessert": false, "share": false, "serv": 1, "cal": 129, "pro": 7, "fat": 7, "carb": 10, "sod": 73, "calc": 0}, {"cat": "饮品", "code": "515281", "name": "阳光柠檬红茶", "price": 10, "orig": 10, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G515280_320.png", "color": "#E67E22", "nut": [117, 0, 0, 29, 17, 0], "dessert": false, "share": false, "serv": 1, "cal": 117, "pro": 0, "fat": 0, "carb": 29, "sod": 17, "calc": 0}, {"cat": "饮品", "code": "520689", "name": "鲜萃咖啡", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_G520688_320.gif", "color": "#16A085", "nut": [13, 1, 0, 0, 3, 0], "dessert": false, "share": false, "serv": 1, "cal": 13, "pro": 1, "fat": 0, "carb": 0, "sod": 3, "calc": 0}, {"cat": "饮品", "code": "3505", "name": "锡兰红茶", "price": 11.5, "orig": 11.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_3505_320.png", "color": "#C0392B", "nut": [2, 0, 0, 0, 0, 5], "dessert": false, "share": false, "serv": 1, "cal": 2, "pro": 0, "fat": 0, "carb": 0, "sod": 0, "calc": 5}, {"cat": "开心乐园", "code": "9900016056", "name": "麦乐鸡开心乐园餐", "price": 25, "orig": 25, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016056_320.png", "color": "#27AE60", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null, "fat": null, "carb": null, "sod": null, "calc": null}, {"cat": "开心乐园", "code": "9900016057", "name": "汉堡开心乐园餐", "price": 23.5, "orig": 23.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016057_320.png", "color": "#D35400", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null, "fat": null, "carb": null, "sod": null, "calc": null}, {"cat": "早餐", "code": "521730", "name": "枫糖风味厚松饼猪柳蛋堡", "price": 22, "orig": 22, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_521730_320.png", "color": "#DA291C", "nut": [387, 23, 21, 25, 846, 0], "dessert": false, "share": false, "serv": 1, "cal": 387, "pro": 23, "fat": 21, "carb": 25, "sod": 846, "calc": 0}]};
 const ITEMS = DATA.items, STORE = DATA.store;
 const byCode = {}; ITEMS.forEach(i=>byCode[i.code]=i);
+
+const NUTDEF = [
+  {key:"cal",  label:"能量", unit:"kcal", icon:'<path d="M12 2c2 4-2 5-2 8a2 2 0 0 0 4 0c0-1 0-2-1-3 3 2 4 5 4 8a6 6 0 1 1-12 0c0-5 5-8 7-13z" fill="#FFC72C"/>'},
+  {key:"pro",  label:"蛋白质", unit:"g", icon:'<path d="M4 12c3-6 13-6 16 0-3 6-13 6-16 0z" fill="#DA291C"/><path d="M12 4v16" stroke="#DA291C" stroke-width="2"/>'},
+  {key:"fat",  label:"脂肪", unit:"g", icon:'<path d="M5 14c0-4 4-7 7-7s7 3 7 7-3 6-7 6-7-2-7-6z" fill="#E8833A"/><circle cx="10" cy="12" r="2" fill="#fff"/>'},
+  {key:"carb", label:"碳水", unit:"g", icon:'<path d="M5 13c0-4 3-6 7-6s7 2 7 6-3 5-7 5-7-1-7-5z" fill="#F2A900"/><path d="M12 7v11" stroke="#F2A900" stroke-width="2"/>'},
+  {key:"sod",  label:"钠", unit:"mg", icon:'<path d="M9 3h6v3l-1 2v11a2 2 0 0 1-2 2 2 2 0 0 1-2-2V8L9 6z" fill="#2C7FB8"/>'},
+  {key:"calc", label:"钙", unit:"mg", icon:'<path d="M7 4h10v3l-2 2v11l-3-2-3 2V9L7 7z" fill="#7B5EA7"/>'}
+];
 
 function mascot(type, mood){
   const eye=(x,y)=>`<circle cx="${x}" cy="${y}" r="3.4" fill="#221E1F"/>`;
@@ -309,6 +374,19 @@ function mascot(type, mood){
   return `<svg viewBox="0 0 52 52" width="100%" height="100%">${base}${eye(20,36)}${eye(32,36)}${blush}${mouth}</svg>`;
 }
 
+function catIcon(cat){
+  if(/鸡/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><path d="M6 20h20l-3 8H9z" fill="#DA291C"/><rect x="11" y="9" width="3" height="11" rx="1.5" fill="#F4C430"/><rect x="18" y="7" width="3" height="13" rx="1.5" fill="#F4C430"/></svg>';
+  if(/牛/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><rect x="5" y="14" width="22" height="10" rx="5" fill="#8B5A2B"/><rect x="4" y="10" width="24" height="8" rx="4" fill="#C9772E"/></svg>';
+  if(/鱼/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><path d="M4 16c6-7 16-7 22 0-6 7-16 7-22 0z" fill="#FFC72C"/><circle cx="9" cy="14" r="1.6" fill="#221E1F"/></svg>';
+  if(/小食|薯/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><path d="M10 12h12l-2 16H12z" fill="#DA291C"/><rect x="13" y="6" width="3" height="9" fill="#F4C430"/><rect x="18" y="4" width="3" height="11" fill="#F4C430"/></svg>';
+  if(/甜|派|冰淇淋|新地|旋风/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><path d="M16 30l5-11 5 11z" fill="#E8A85C"/><circle cx="16" cy="13" r="8" fill="#FFF3E0"/></svg>';
+  if(/饮|咖啡|茶|牛奶|冰|可乐|雪/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><path d="M9 10h14l-2 18H11z" fill="#FFC72C"/><rect x="16" y="3" width="2.5" height="9" fill="#DA291C"/></svg>';
+  if(/早|蛋|卷|粥/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><rect x="6" y="12" width="20" height="12" rx="6" fill="#F4C430"/><circle cx="16" cy="18" r="4" fill="#fff"/></svg>';
+  if(/乐园/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><rect x="7" y="14" width="18" height="12" rx="3" fill="#7BC16B"/><circle cx="16" cy="11" r="4" fill="#DA291C"/></svg>';
+  if(/套餐|双人|分享|全明星/.test(cat)) return '<svg class="ci" viewBox="0 0 32 32"><path d="M5 18h22" stroke="#E8833A" stroke-width="3" stroke-linecap="round"/><path d="M9 18l3-6M16 18l3-7M23 18l3-6" stroke="#E8833A" stroke-width="3" stroke-linecap="round"/></svg>';
+  return '<svg class="ci" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" fill="#FFC72C"/></svg>';
+}
+
 const MOODS = [
   {id:"tired", name:"累瘫了", tag:"治愈系", face:"icecream", color:"#7B5EA7",
    narr:"加班到十点，城市都睡了，只有你和胃还醒着。今晚不谈卡路里，谈开心——至少来口甜的。"},
@@ -324,7 +402,6 @@ const MOODS = [
    narr:"天气凉，心也要暖。来份不油腻、刚刚好、吃完身子发暖的。"}
 ];
 
-// 每个心情对应的基础套餐（真实商品 code）
 const COMBO = {
   tired:  {title:"深夜治愈系 · 被宠的一天", face:"icecream", items:["1440","9900008754","9900008751"],
            desc:"麦辣鸡腿堡的热乎、麦旋风的甜、可乐的气——今晚你值得被好好喂一顿。"},
@@ -348,10 +425,49 @@ const QUIZ = [
 
 let state = { mood:null, quiz:{}, cart:{} };
 
+/* ---------- 营养条 ---------- */
+let nutPrev = {cal:0,pro:0,fat:0,carb:0,sod:0,calc:0};
+function renderNutGrid(){
+  document.getElementById("nutgrid").innerHTML = NUTDEF.map(n=>`
+    <div class="nutcell" data-k="${n.key}">
+      <svg class="ni" viewBox="0 0 24 24">${n.icon}</svg>
+      <div class="nv" id="nv-${n.key}">0</div>
+      <div class="nu">${n.label}<br>${n.unit}</div>
+    </div>`).join("");
+}
+function animateNum(id, to){
+  const el=document.getElementById(id); if(!el) return;
+  const from=parseInt(String(el.textContent).replace(/[^\d-]/g,''))||0;
+  if(from===to){ el.textContent=to; return; }
+  el.textContent=to;                    // 终值保底：rAF 未触发也显示正确数值
+  if(!window.requestAnimationFrame) return;
+  const dur=420, t0=performance.now();
+  function step(t){
+    // rAF 回调时间戳可能早于 t0（帧起始时间），必须钳制到 [0,1]，否则进度为负会算出负数
+    const p=Math.min(1,Math.max(0,(t-t0)/dur));
+    const e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(from+(to-from)*e);
+    if(p<1) requestAnimationFrame(step); else el.textContent=to;
+  }
+  requestAnimationFrame(step);
+  // 兜底：rAF 中途停止（后台标签页/无头环境）时，确保终值一定落地
+  setTimeout(function(){ el.textContent=to; }, dur+80);
+}
+function updateNut(){
+  const t=totals();
+  NUTDEF.forEach(n=>{
+    const cur=t[n.key]||0;
+    if(cur!==nutPrev[n.key]){ animateNum("nv-"+n.key, cur); }
+    const cell=document.querySelector('.nutcell[data-k="'+n.key+'"]');
+    if(cell) cell.classList.toggle("hot", cur>0);
+    nutPrev[n.key]=cur;
+  });
+}
+
 /* ---------- 心情 ---------- */
 function renderMoods(){
   document.getElementById("moods").innerHTML = MOODS.map(m=>`
-    <div class="mood ${state.mood===m.id?'on':''}" data-id="${m.id}" onclick="pickMood('${m.id}')">
+    <div class="mood ${state.mood===m.id?'on':''}" data-id="${m.id}" onclick="pickMood('${m.id}')" style="--mc:${m.color}">
       <div class="pick">✓</div>
       <div class="face">${mascot(m.face,'happy')}</div>
       <div class="mname">${m.name}</div>
@@ -430,7 +546,6 @@ function refine(items){
   else if(w==="save"){ const down={"511781":"1440","511782":"1406"}; arr=arr.map(c=>down[c]||c); }
   if(h==="light"){ arr=arr.filter(c=>!["9900008754","9900008752","515837"].includes(c)); if(!arr.some(c=>["6102","3755"].includes(c))) arr.push("6102"); }
   else if(h==="fit"){ arr=arr.filter(c=>!["9900008754","9900008752","515837","4810"].includes(c)); if(!arr.some(c=>["511781","511782","9900005456"].includes(c))) arr.push("511781"); if(!arr.some(c=>["6102","3755"].includes(c))) arr.push("6102"); }
-  // 去重保序
   const seen={}, out=[];
   arr.forEach(c=>{ if(!seen[c]){seen[c]=1; out.push(c);} });
   return out;
@@ -456,20 +571,18 @@ function reveal(k){
 document.getElementById("rFill").addEventListener("click",()=>{
   if(!state.persona) return;
   state.cart={}; state.persona.items.forEach(c=>state.cart[c]=1);
-  renderPlate(); updateTot();
+  renderPlate(); updateTot(); updateNut();
   document.getElementById("sec-make").scrollIntoView({behavior:"smooth",block:"start"});
   speak(state.persona.face,"cheer","已经替你摆好盘啦，要加要减随你，满意就「出戏」。");
 });
-document.getElementById("rRespin").addEventListener("click",()=>{
-  if(spinning) return; spin();
-});
+document.getElementById("rRespin").addEventListener("click",()=>{ if(spinning) return; spin(); });
 document.getElementById("spinBtn").addEventListener("click",spin);
 
 /* ---------- 菜单/拼盘（可微调） ---------- */
 const CATS=["全部", ...Array.from(new Set(ITEMS.map(i=>i.cat)))];
 let curCat="全部";
-function renderChips(){ document.getElementById("chips").innerHTML=CATS.map(c=>`<div class="chip2 ${curCat===c?'on':''}" onclick="setCat('${c}')">${c}</div>`).join(""); }
-function setCat(c){ curCat=c; renderChips(); renderMenu(); }
+function renderCats(){ document.getElementById("cats").innerHTML=CATS.map(c=>`<div class="cat ${curCat===c?'on':''}" onclick="setCat('${c}')">${catIcon(c)}<div class="ct">${c}</div></div>`).join(""); }
+function setCat(c){ curCat=c; renderCats(); renderMenu(); }
 function renderMenu(){
   const list=ITEMS.filter(i=>curCat==="全部"||i.cat===curCat);
   document.getElementById("menu").innerHTML=list.map(i=>{
@@ -488,12 +601,12 @@ function renderMenu(){
 function addItem(code, ev){
   state.cart[code]=(state.cart[code]||0)+1;
   if(ev) flyToPlate(ev.currentTarget, code);
-  renderPlate(); updateTot();
+  renderPlate(); updateTot(); updateNut();
 }
 function chg(code,d){
   state.cart[code]=(state.cart[code]||0)+d;
   if(state.cart[code]<=0) delete state.cart[code];
-  renderPlate(); updateTot();
+  renderPlate(); updateTot(); updateNut();
 }
 function flyToPlate(card, code){
   const img=card.querySelector(".pic");
@@ -511,21 +624,21 @@ function renderPlate(){
   el.innerHTML=codes.map(c=>{ const i=byCode[c],q=state.cart[c];
     return `<div class="pitem">
       <div class="pf">${mascot(i.face,'happy')}</div>
-      <div class="pn">${i.name}<small>¥${i.price} · ${i.cal!=null?i.cal+'kcal':(i.pro!=null?'套餐':"")}</small></div>
+      <div class="pn">${i.name}<small>¥${i.price} · ${i.cal!=null?i.cal+'kcal':(i.serv>1?'套餐':"")}</small></div>
       <div class="stepper"><button onclick="chg('${c}',-1)">−</button><span class="q">${q}</span><button onclick="chg('${c}',1)">+</button></div>
       <div class="pp">¥${(i.price*q).toFixed(1)}</div>
     </div>`;
   }).join("");
 }
 function totals(){
-  let price=0,cal=0,pro=0,serv=0,calComplete=true;
+  let price=0,cal=0,pro=0,fat=0,carb=0,sod=0,calc=0,serv=0,complete=true;
   for(const c in state.cart){ const i=byCode[c],q=state.cart[c];
     price+=i.price*q;
-    if(i.cal!=null) cal+=i.cal*q; else calComplete=false;
-    if(i.pro!=null) pro+=i.pro*q;
+    if(i.cal!=null){ cal+=i.cal*q; pro+=i.pro*q; fat+=i.fat*q; carb+=i.carb*q; sod+=i.sod*q; calc+=i.calc*q; }
+    else complete=false;
     serv+=i.serv*q;
   }
-  return {price,cal,pro,serv,calComplete,count:Object.values(state.cart).reduce((a,b)=>a+b,0)};
+  return {price,cal,pro,fat,carb,sod,calc,serv,complete,count:Object.values(state.cart).reduce((a,b)=>a+b,0)};
 }
 function updateTot(){
   const t=totals();
@@ -542,9 +655,12 @@ function checkout(){
   const orig=codes.reduce((a,c)=>a+byCode[c].orig*state.cart[c],0);
   const sv=orig-t.price, now=new Date();
   const ptitle = p? p.title : "今日随心配";
+  const nutLine = t.complete
+    ? `<div class="rrow"><span class="rn">总营养</span><span class="rp">${t.cal}kcal·蛋${t.pro} 脂${t.fat} 碳${t.carb} 钠${t.sod} 钙${t.calc}</span></div>`
+    : `<div class="rrow"><span class="rn">总营养</span><span class="rp">≈${t.cal}kcal (部分套餐无营养数据)</span></div>`;
   document.getElementById("receipt").innerHTML=`
     <div class="rtop">
-      <svg class="arch" width="26" height="30" viewBox="0 0 30 34"><path d="M3 33V14c0-6 4-10 9-10s9 4 9 10v19" fill="none" stroke="#FFC72C" stroke-width="5" stroke-linecap="round"/></svg>
+      <svg class="star" width="26" height="26" viewBox="0 0 24 24"><path d="M12 3l3 7 7 .5-5.5 4.5 2 7L12 18l-6.5 4 2-7L2 10.5 9 10z" fill="#FFC72C"/></svg>
       <h3>麦麦今日剧本 · 小票</h3>
       <p>${STORE.name} · 到店取餐</p>
       <p>${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}</p>
@@ -554,7 +670,7 @@ function checkout(){
       ${rows}
       <div class="rtot"><span>合计</span><span style="color:#DA291C">¥${t.price.toFixed(1)}</span></div>
       <div class="rrow"><span class="rn">原价 / 立省</span><span class="rp">¥${orig.toFixed(1)} <span style="color:#2E9E4F;font-size:11px">省¥${sv.toFixed(1)}</span></span></div>
-      <div class="rrow"><span class="rn">总热量</span><span class="rp">${t.cal}${t.calComplete?'':'≈'} kcal${t.calComplete?'':' (部分套餐无营养数据)'}</span></div>
+      ${nutLine}
       <div class="rrow"><span class="rn">蛋白 / 人份</span><span class="rp">${t.pro}g / ${t.serv}份</span></div>
       <div class="stamp">剧本<br>通关</div>
       <div class="rnote">本场戏份由麦当劳官方 MCP 真实菜单与营养数据支撑<br>价格经 calculate-price 核验 · 仅演示，未实际下单</div>
@@ -581,11 +697,22 @@ function speak(face, mood, txt){
   speakTimer=setTimeout(()=>m.classList.add("hide"),4600);
 }
 
+/* 顶栏/悬浮栏 */
 document.getElementById("storeName").textContent=STORE.name;
 document.getElementById("storeName2").textContent=STORE.name;
 document.getElementById("goBtn").addEventListener("click",checkout);
 document.getElementById("overlay").addEventListener("click",e=>{ if(e.target.id==="overlay") closeRcpt(); });
-buildWheelLabels(); renderMoods(); renderQuiz(); renderChips(); renderMenu(); renderPlate(); refreshSpin();
+document.getElementById("toTop").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+document.querySelectorAll(".vbar .vi[data-toast]").forEach(v=>v.addEventListener("click",()=>speak("burger","happy",v.getAttribute("data-toast"))));
+
+/* 入场动画 */
+function setupReveal(){
+  const els=document.querySelectorAll(".reveal");
+  const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); },{threshold:.12});
+  els.forEach(e=>io.observe(e));
+}
+
+buildWheelLabels(); renderMoods(); renderQuiz(); renderNutGrid(); renderCats(); renderMenu(); renderPlate(); refreshSpin(); setupReveal();
 </script>
 </body>
 </html>

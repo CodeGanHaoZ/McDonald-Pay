@@ -19,17 +19,20 @@
 
 ## 设计语言（借鉴麦当劳设计范式，非仿壳）
 
-- 品牌红黄撞色 + 米黄背景，金色拱门 M 反复出现
+- 品牌红黄撞色 + 米黄背景（麦当劳品牌色 `#DA291C` / `#FFC72C`）
 - 大圆角白卡、斜切/胶囊贴纸标签、拟人化食物表情 SVG（无 emoji、无 AI 紫蓝渐变）
+- 红色方块「M」品牌标记 + 斜切贴纸 + 规则网格描边，弱化通用卡片感
 - 桌面网页栅格布局（左菜单 + 右吸顶拼盘），不是仿微信小程序手机壳
 
 ## 强交互 & 动态效果
 
 - 心情选择 → 场景叙事实时改写 + 拟人店员气泡回应
 - 测验点选 → 人设标签实时累加
-- 大转盘 → CSS 旋转动画（6 段彩色扇区 + 金拱门中心 + 红色指针），停留段与所选心情对齐
+- 大转盘 → CSS 旋转动画（6 段彩色扇区 + 红色指针），停留段与所选心情对齐
 - 揭晓卡片 → 人设标题 + 标签 + 剧情描述 + 撒花
-- 加菜 → 商品图**飞入拼盘**动画；实时算价（现价/原价/立省）+ 实时算卡（热量/蛋白）
+- 加菜 → 商品图**飞入拼盘**动画；实时算价（现价/原价/立省）+ 实时算卡
+- **营养计算器** → 顶部 6 项指标（能量 / 蛋白质 / 脂肪 / 碳水 / 钠 / 钙）随加购**实时联动**，数字滚动动画，命中指标高亮
+- 滚动入场、卡片悬浮抬升、按钮按压反馈、错落入场等界面动效
 - "出戏" → **撒花** + 专属**小票**（含红章"剧本通关"）
 
 ## 真实数据来源（麦当劳官方 MCP）
@@ -52,11 +55,25 @@ McDonald-Pay/
 ├── maimai-combo.html         # 主交付：麦麦今日剧本 · 心情点餐剧场
 ├── maimai-gachapon.html      # 早期备选原型：麦麦扭蛋机
 ├── maimai-gachapon-real.html # 扭蛋机真实接入版
-├── CONTEST_DECLARATION.md    # 参赛声明（官方原文）
+├── CONTEST_DECLARATION.md    # 参赛声明（官方原文，未作任何修改）
 ├── MCP_INTEGRATION.md        # MCP 接入说明
-├── workbuddy.md              # WorkBuddy 专项奖励交付上下文
+├── mcp-config.example.json   # 脱敏 MCP 配置示例（仅环境变量占位符）
+├── workbuddy.md              # WorkBuddy 专项奖励交付上下文（开发对话凭证）
 └── README.md                 # 本文件
 ```
+
+## 参赛必备文件自查
+
+对照官方活动规则要求，本仓库文件齐备：
+
+| 序号 | 文件名称 | 说明 | 状态 |
+|:---:|---|---|---|
+| 1 | `README.md` | 项目介绍、安装方法、使用示例、目标用户 | ✅ |
+| 2 | `CONTEST_DECLARATION.md` | 参赛声明（采用官方原文，文件名及内容均未改动） | ✅ |
+| 3 | `MCP_INTEGRATION.md` | 使用的 MCP Server、Tool、调用流程和业务价值 | ✅ |
+| 4 | 源代码 | `maimai-combo.html`（单文件可运行）+ 两个 Skill 定义 | ✅ |
+| 5 | `mcp-config.example.json` | 脱敏 MCP 配置示例，仅含环境变量占位符 | ✅ |
+| 6 | `workbuddy.md` | WorkBuddy 开发对话上下文（参加专项奖励时提交） | ✅ |
 
 ## 本地运行
 
@@ -72,20 +89,20 @@ McDonald-Pay/
 ## 接入 McDonald's MCP（让 Skill 真正取数）
 
 1. 获取 MCP Token：https://open.mcd.cn/mcp/doc → 登录 → 控制台 → 激活复制
-2. 在 `~/.workbuddy/mcp.json` 写入：
+2. 在 WorkBuddy 中：左侧边栏【专家·技能·连接器】→【连接器】→【自定义连接器】→【配置 MCP】，填入本仓库 `mcp-config.example.json` 的内容：
    ```json
    {
      "mcpServers": {
-       "mcd-order": {
+       "mcd-mcp": {
          "type": "streamablehttp",
          "url": "https://mcp.mcd.cn",
-         "headers": { "Authorization": "Bearer <TOKEN>" },
-         "disabled": false
+         "headers": { "Authorization": "Bearer ${MCD_MCP_TOKEN}" }
        }
      }
    }
    ```
-3. WorkBuddy 连接器管理页 → 自定义连接器 → 信任 `mcd-order` → 重启会话
+   > ⚠️ 请将 `${MCD_MCP_TOKEN}` 替换为实际 Token 后保存。仓库中的示例文件**不含任何真实凭证**。
+3. 回到【自定义连接器】，启用 `mcd-mcp`，即可在对话中让 WorkBuddy 调用麦当劳 MCP 工具
 
 ## 安全说明
 
