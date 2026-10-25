@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>麦麦扭蛋机 · 真实接入版</title>
+<style>
+  :root {
+    --brand-red: #DA291C;
+    --brand-yellow: #FFC72C;
+    --ink: #1A1A1A;
+    --ink-soft: #5B5B5B;
+    --surface: #FFFFFF;
+    --surface-2: #F5F5F4;
+    --line: #E4E4E2;
+    --rare: #2E7D32;
+    --epic: #C0392B;
+    --radius: 16px;
+    --shadow: 0 8px 28px rgba(0,0,0,.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", "Noto Sans SC", system-ui, -apple-system, sans-serif;
+    background: var(--surface-2);
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 28px 16px 56px;
+  }
+  .app { width: 100%; max-width: 860px; display: grid; gap: 20px; }
+  .topbar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 18px 22px; background: var(--surface);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+  }
+  .topbar .logo {
+    width: 40px; height: 40px; border-radius: 10px; background: var(--brand-red);
+    display: grid; place-items: center;
+  }
+  .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing: .5px; }
+  .topbar .sub { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+  .topbar .meta { margin-left: auto; text-align: right; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .topbar .meta b { font-size: 18px; color: var(--brand-red); }
+
+  .layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
+  @media (max-width: 720px) { .layout { grid-template-columns: 1fr; } }
+
+  .machine {
+    background: var(--surface); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 20px; text-align: center;
+  }
+  .globe {
+    position: relative; height: 220px; border-radius: 14px;
+    background: linear-gradient(180deg, #fff 0%, var(--surface-2) 100%);
+    border: 1px solid var(--line); overflow: hidden; margin-bottom: 16px;
+  }
+  .capsule {
+    position: absolute; width: 30px; height: 30px; border-radius: 50%;
+    box-shadow: inset -4px -4px 0 rgba(0,0,0,.12);
+    animation: floaty 3s ease-in-out infinite;
+  }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .crank {
+    width: 64px; height: 64px; margin: 0 auto 14px; border-radius: 50%;
+    background: var(--brand-yellow); border: 4px solid var(--brand-red);
+    display: grid; place-items: center; cursor: pointer; transition: transform .2s;
+  }
+  .crank:active { transform: rotate(180deg); }
+  .crank.disabled { opacity: .5; pointer-events: none; }
+  .draw-btn {
+    width: 100%; padding: 14px; border: none; border-radius: 12px;
+    background: var(--brand-red); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer;
+  }
+  .draw-btn:disabled { background: var(--line); color: var(--ink-soft); cursor: not-allowed; }
+  .cost-note { font-size: 12px; color: var(--ink-soft); margin-top: 10px; line-height: 1.6; }
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px;
+    border-radius: 999px; margin-top: 8px;
+  }
+  .badge.real { background: var(--rare); color: #fff; }
+  .badge.mock { background: var(--line); color: var(--ink-soft); }
+
+  .panel { display: grid; gap: 16px; }
+  .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+  .card h2 { font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+  .reveal { display: none; text-align: center; border: 2px dashed var(--brand-yellow); }
+  .reveal.show { display: block; animation: pop .4s ease; }
+  @keyframes pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .reveal .prize-icon { width: 72px; height: 72px; margin: 6px auto 10px; }
+  .reveal .tier { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff; margin-bottom: 8px; }
+  .reveal .pname { font-size: 20px; font-weight: 700; }
+  .reveal .pdesc { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 10px; }
+  .cell {
+    aspect-ratio: 1; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--surface-2); display: grid; place-items: center; position: relative;
+  }
+  .cell.got { background: #fff; border-color: var(--brand-yellow); }
+  .cell .cnt { position: absolute; right: 4px; bottom: 2px; font-size: 11px; font-weight: 700; color: var(--brand-red); }
+
+  .history { list-style: none; font-size: 13px; }
+  .history li { padding: 8px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
+  .history li:last-child { border-bottom: none; }
+  .tier-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+  .tag-r { background: var(--rare); } .tag-e { background: var(--epic); } .tag-n { background: var(--ink-soft); }
+
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none;
+    place-items: center; z-index: 50; padding: 20px;
+  }
+  .overlay.show { display: grid; }
+  .overlay .box {
+    background: #fff; border-radius: var(--radius); padding: 24px; max-width: 380px; text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .overlay .box p { font-size: 14px; line-height: 1.7; color: var(--ink); text-align: left; }
+  .overlay .box b { color: var(--brand-red); }
+  .overlay .box .row { display: flex; gap: 10px; margin-top: 18px; }
+  .overlay .box button { flex: 1; padding: 10px 0; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+  .btn-yes { background: var(--brand-red); color: #fff; }
+  .btn-no { background: var(--surface-2); color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9h12l-1 11H7L6 9Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+    </div>
+    <div>
+      <h1>麦麦扭蛋机</h1>
+      <div class="sub" id="actName">积分抽奖 · 可视化收集 · MCD MCP</div>
+    </div>
+    <div class="meta">
+      <span id="ptsLabel">我的积分</span><br><b id="pts">—</b>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="machine">
+      <div class="globe" id="globe"></div>
+      <div class="crank" id="crank">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#DA291C" stroke-width="2" stroke-linecap="round"><path d="M12 12v-3"/><circle cx="12" cy="12" r="3"/><path d="M12 9V5a7 7 0 1 0 7 7"/></svg>
+      </div>
+      <button class="draw-btn" id="drawBtn">扭一次</button>
+      <span class="badge real" id="modeBadge">真实接入</span>
+      <div class="cost-note" id="costNote"></div>
+    </div>
+
+    <div class="panel">
+      <div class="card reveal" id="reveal">
+        <div class="prize-icon" id="prizeIcon"></div>
+        <span class="tier" id="prizeTier">普通</span>
+        <div class="pname" id="prizeName">—</div>
+        <div class="pdesc" id="prizeDesc"></div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DA291C" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
+          奖品图鉴
+        </h2>
+        <div class="grid" id="dex"></div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DA291C" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z"/><path d="M12 7v5l3 2"/></svg>
+          抽奖记录
+        </h2>
+        <ul class="history" id="history"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="box">
+    <p id="overlayText"></p>
+    <div class="row">
+      <button class="btn-no" onclick="document.getElementById('overlay').classList.remove('show')">取消</button>
+      <button class="btn-yes" id="confirmBtn">确认消耗并抽奖</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== 真实数据注入（来自麦当劳 MCP：query-lottery-info / query-my-prizes）=====
+  const INJECTED = {
+    real: true,
+    activity: { name: "麦麦积分抽奖（进行中）", status: "进行中" },
+    cost: { points: 24, remainingPoints: "65.6", remainingTimes: null },
+    prizes: [
+      { id:'r1', name:'下单立减3元券', tier:'普通', color:'#DA291C', desc:'下单立减3元 · 优惠券' },
+      { id:'r2', name:'下单立减2元券', tier:'普通', color:'#E74C3C', desc:'下单立减2元 · 优惠券' },
+      { id:'r3', name:'下单立减1元券', tier:'普通', color:'#E67E22', desc:'下单立减1元 · 优惠券' },
+      { id:'r4', name:'麦辣三件套5折券', tier:'稀有', color:'#C0392B', desc:'麦辣三件套5折 · 优惠券' },
+      { id:'r5', name:'板烧三件套5折券', tier:'稀有', color:'#A93226', desc:'板烧三件套5折 · 优惠券' },
+      { id:'r6', name:'双层鳕鱼三件套6折券', tier:'稀有', color:'#8E44AD', desc:'双层鳕鱼三件套6折 · 优惠券' },
+      { id:'r7', name:'甜辣小食组合5折券', tier:'普通', color:'#D35400', desc:'甜辣小食组合5折 · 优惠券' },
+      { id:'r8', name:'小食四件套5.5折券', tier:'普通', color:'#B9770E', desc:'小食四件套5.5折 · 优惠券' },
+      { id:'r9', name:'麦旋风5折券', tier:'普通', color:'#2980B9', desc:'麦旋风5折 · 优惠券' },
+      { id:'r10', name:'30积分', tier:'史诗', color:'#D4AF37', desc:'积分奖励 · 直接入账' }
+    ],
+    history: [
+      { id:'h1', name:'麦旋风5折券', tier:'普通', time:'2025-07-28' },
+      { id:'h2', name:'立春·门票', tier:'稀有', time:'2026-02-14' },
+      { id:'h3', name:'惊蛰·门票', tier:'稀有', time:'2026-03-12' },
+      { id:'h4', name:'小满·门票', tier:'稀有', time:'2026-05-28' }
+    ]
+  };
+
+  const REAL = true;
+  const MOCK_POOL = INJECTED.prizes;
+  const tierColor = { '普通':'#7F8C8D', '稀有':'#2E7D32', '史诗':'#C0392B' };
+  const POOL = INJECTED.prizes;
+
+  // 顶部信息
+  document.getElementById('actName').textContent = INJECTED.activity.name;
+  const c = INJECTED.cost || {};
+  document.getElementById('pts').textContent = c.remainingPoints;
+  document.getElementById('costNote').innerHTML =
+    `活动状态：<b>${INJECTED.activity.status}</b><br>每次消耗 <b>${c.points} 积分</b><br>真实抽奖由 Skill 调用 <code>draw-lottery</code>，需你二次确认。`;
+  const mb = document.getElementById('modeBadge');
+  mb.textContent = '真实接入'; mb.className = 'badge real';
+
+  // 胶囊球
+  const globe = document.getElementById('globe');
+  for (let i=0;i<26;i++){
+    const el = document.createElement('div');
+    el.className = 'capsule';
+    const p = POOL[i % POOL.length];
+    el.style.background = p.color;
+    el.style.left = (6 + Math.random()*86) + '%';
+    el.style.top = (8 + Math.random()*78) + '%';
+    el.style.animationDelay = (Math.random()*3) + 's';
+    globe.appendChild(el);
+  }
+
+  // 图鉴
+  const dex = {};
+  POOL.forEach(p => dex[p.id] = 0);
+  const dexEl = document.getElementById('dex');
+  function renderDex(){
+    dexEl.innerHTML = '';
+    POOL.forEach(p => {
+      const cell = document.createElement('div');
+      cell.className = 'cell ' + (dex[p.id] > 0 ? 'got' : '');
+      cell.innerHTML = dex[p.id] > 0
+        ? `<div style="width:34px;height:34px;border-radius:50%;background:${p.color}"></div>${dex[p.id]>1?`<span class="cnt">x${dex[p.id]}</span>`:''}`
+        : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>`;
+      dexEl.appendChild(cell);
+    });
+  }
+  // 真实历史回填图鉴（麦旋风5折券在奖池中）
+  if (INJECTED.history) {
+    INJECTED.history.forEach(h => {
+      const found = POOL.find(p => p.name === h.name);
+      if (found) dex[found.id] = (dex[found.id]||0) + 1;
+    });
+  }
+  renderDex();
+
+  const drawBtn = document.getElementById('drawBtn');
+  const crank = document.getElementById('crank');
+  const reveal = document.getElementById('reveal');
+  const historyEl = document.getElementById('history');
+
+  function prizeSVG(color){
+    return `<svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg>`;
+  }
+
+  function showResult(p){
+    dex[p.id] = (dex[p.id] || 0) + 1; renderDex();
+    document.getElementById('prizeIcon').innerHTML = prizeSVG(p.color);
+    const t = document.getElementById('prizeTier');
+    t.textContent = p.tier; t.style.background = tierColor[p.tier] || '#7F8C8D';
+    document.getElementById('prizeName').textContent = p.name;
+    document.getElementById('prizeDesc').textContent = p.desc || '';
+    reveal.classList.add('show');
+    const dot = p.tier==='稀有'?'tag-r':p.tier==='史诗'?'tag-e':'tag-n';
+    const li = document.createElement('li');
+    li.innerHTML = `<span><span class="tier-dot ${dot}"></span>${p.name}</span><span style="color:var(--ink-soft)">${p.tier} · 本次真实抽中</span>`;
+    historyEl.prepend(li);
+  }
+
+  // 真实结果回填：Agent 调用 draw-lottery 后写入 window.__MCD_RESULT__ 并刷新
+  function applyResult(p){
+    if (!p) return;
+    showResult(p);
+  }
+  if (window.__MCD_RESULT__) applyResult(window.__MCD_RESULT__);
+
+  // 点击扭蛋 → 展示消耗 → 二次确认（关键安全闸：绝不自动抽）
+  drawBtn.addEventListener('click', () => {
+    document.getElementById('overlayText').innerHTML =
+      '即将调用麦当劳官方 <b>draw-lottery</b>：<br><br>' +
+      '· 活动：<b>麦麦积分抽奖</b>（进行中）<br>' +
+      '· 本次消耗：<b>24 积分</b><br>' +
+      '· 当前可用积分：<b>65.6</b>（抽后约剩 41.6）<br><br>' +
+      '该操作会<b>真实扣除积分</b>且不可撤销。是否确认？';
+    document.getElementById('overlay').classList.add('show');
+  });
+
+  // 二次确认后：通知 Skill 调用 draw-lottery（Agent 监听此事件或用户回到对话框发送「确认抽」）
+  document.getElementById('confirmBtn').addEventListener('click', () => {
+    document.getElementById('overlay').classList.remove('show');
+    crank.classList.add('disabled'); drawBtn.disabled = true; drawBtn.textContent = '抽奖中…';
+    // 派发事件，供 Skill/Agent 捕获并执行真实抽奖
+    window.dispatchEvent(new CustomEvent('mcd-gacha-draw'));
+    // 兜底提示
+    document.getElementById('costNote').innerHTML += '<br><b>已发起抽奖请求，请回到对话框等待结果回填…</b>';
+  });
+</script>
+</body>
+</html>

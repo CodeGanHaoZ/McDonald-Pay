@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>麦麦今日剧本 · 心情点餐剧场</title>
+<style>
+:root{
+  --red:#DA291C; --red2:#E8412F; --yellow:#FFC72C; --yellow-d:#F2A900;
+  --ink:#221E1F; --ink-soft:#8A7B72; --cream:#FFF6E6; --paper:#FFFFFF;
+  --line:#F0E6D8; --good:#2E9E4F; --shadow:0 12px 30px rgba(140,50,25,.14);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);color:var(--ink);background:radial-gradient(130% 90% at 50% -10%,#FFE7A6 0%,#FFF6E6 40%,#F6E9D2 100%);min-height:100vh;line-height:1.5;overflow-x:hidden}
+a{text-decoration:none}
+.app{max-width:1120px;margin:0 auto;padding:0 18px 160px}
+
+/* 顶栏 */
+.topbar{position:sticky;top:0;z-index:45;background:linear-gradient(120deg,var(--red),var(--red2));border-radius:0 0 24px 24px;margin:0 -18px 18px;padding:13px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 8px 22px rgba(120,40,20,.28)}
+.topbar .arch{width:30px;height:34px;flex:none}
+.topbar .bn{color:#fff;font-weight:800;font-size:19px;letter-spacing:1px;flex:1 1 auto;min-width:0}
+.topbar .bn small{font-weight:600;font-size:11px;opacity:.85;margin-left:7px;letter-spacing:0}
+.topbar .nav{display:flex;gap:4px;margin-left:auto}
+.topbar .nav a{color:#fff;font-size:12.5px;font-weight:700;opacity:.82;padding:6px 13px;border-radius:999px;transition:.15s}
+.topbar .nav a:hover{background:rgba(255,255,255,.18);opacity:1}
+.topbar .store{display:flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:7px 13px;font-size:11.5px;font-weight:700;color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.12);white-space:nowrap;margin-left:auto}
+.topbar .store .pin{flex:none}
+.topbar .store .switch{border:none;background:var(--cream);color:var(--red);font-weight:800;border-radius:999px;padding:4px 9px;font-size:10.5px;cursor:pointer}
+
+/* Hero */
+.hero{margin:6px 2px 16px}
+.hero .kicker{display:inline-block;background:var(--yellow);color:#5a3b00;font-weight:800;font-size:12px;padding:4px 13px;border-radius:999px;transform:rotate(-2deg);box-shadow:0 3px 0 rgba(242,169,0,.5)}
+.hero h1{font-size:clamp(26px,5vw,40px);font-weight:800;line-height:1.2;margin:12px 0 6px;letter-spacing:.5px}
+.hero h1 .hl{color:var(--red)}
+.hero p{font-size:14px;color:var(--ink-soft);max-width:660px;margin:0}
+.hero .meta{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.hero .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12px;font-weight:700;color:var(--ink);box-shadow:0 4px 10px rgba(140,50,25,.06)}
+.hero .pill b{color:var(--red)}
+
+.sec-h{display:flex;align-items:center;gap:8px;margin:30px 2px 13px}
+.sec-h .bar{width:5px;height:18px;background:var(--red);border-radius:3px}
+.sec-h h2{font-size:18px;font-weight:800;margin:0}
+.sec-h .step{margin-left:8px;background:var(--ink);color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:2px 9px}
+.sec-h .more{margin-left:auto;font-size:12px;color:var(--ink-soft)}
+
+/* 心情选择 */
+.moods{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:13px}
+.mood{background:var(--paper);border-radius:20px;padding:15px 12px;text-align:center;box-shadow:var(--shadow);border:2px solid transparent;cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s;position:relative}
+.mood:hover{transform:translateY(-3px)}
+.mood.on{border-color:var(--red);box-shadow:0 16px 34px rgba(218,41,28,.2)}
+.mood .face{width:54px;height:54px;margin:0 auto 8px}
+.mood .mname{font-weight:800;font-size:15px}
+.mood .mtag{font-size:11px;color:var(--ink-soft);margin-top:2px}
+.mood .pick{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;display:none;place-items:center;font-size:13px;font-weight:800}
+.mood.on .pick{display:grid}
+.moodNarr{margin-top:14px;background:linear-gradient(135deg,#FFF3DA,#FFE7BE);border-radius:16px;padding:14px 16px;font-size:13.5px;color:#6b4a2a;line-height:1.7;border:1.5px dashed var(--yellow-d);min-height:20px;font-weight:600}
+
+/* 测验 */
+.quiz{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.qcard{background:var(--paper);border-radius:20px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.qcard .qt{font-weight:800;font-size:14.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.qcard .qt .qn{width:24px;height:24px;background:var(--red);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:12px;flex:none}
+.qopts{display:flex;flex-wrap:wrap;gap:8px}
+.qopt{flex:1 1 calc(50% - 4px);min-width:110px;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;text-align:center;transition:.14s}
+.qopt:hover{border-color:var(--yellow-d)}
+.qopt.on{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 6px 14px rgba(218,41,28,.3)}
+
+/* 转盘 */
+.wheelbox{display:flex;gap:26px;align-items:center;flex-wrap:wrap;justify-content:center;background:var(--paper);border-radius:24px;padding:24px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.wheelwrap{position:relative;width:300px;height:300px;flex:none}
+.wheelwrap .hub{position:absolute;top:50%;left:50%;width:64px;height:64px;transform:translate(-50%,-50%);background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(0,0,0,.2);display:grid;place-items:center;z-index:4;border:4px solid var(--yellow)}
+.wheelwrap .hub svg{width:34px;height:34px}
+.wheel{position:absolute;inset:0;border-radius:50%;transition:transform 4.4s cubic-bezier(.16,.84,.34,1);box-shadow:0 10px 26px rgba(140,50,25,.25),inset 0 0 0 8px #fff,inset 0 0 0 12px var(--yellow-d);background:conic-gradient(#DA291C 0 60deg,#FFC72C 60deg 120deg,#E8833A 120deg 180deg,#2E9E4F 180deg 240deg,#2C7FB8 240deg 300deg,#7B5EA7 300deg 360deg)}
+.wheel .lbl{position:absolute;top:50%;left:50%;transform-origin:0 0;font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);width:0;height:0}
+.wheel .lbl span{position:absolute;transform:translate(-50%,-50%);white-space:nowrap}
+.pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:26px solid var(--red);z-index:6;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+.wheelinfo{flex:1;min-width:240px}
+.wheelinfo .ws{font-size:13px;color:var(--ink-soft);margin-bottom:6px}
+.wheelinfo .wn{font-size:18px;font-weight:800;margin-bottom:10px}
+.spinbtn{background:var(--red);color:#fff;border:none;border-radius:999px;font-weight:800;font-size:16px;padding:14px 30px;cursor:pointer;box-shadow:0 8px 20px rgba(218,41,28,.42);transition:transform .12s;display:inline-flex;align-items:center;gap:8px}
+.spinbtn:active{transform:scale(.96)}
+.spinbtn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.wheelhint{font-size:12px;color:var(--ink-soft);margin-top:10px;line-height:1.6}
+
+/* 揭晓 */
+.reveal{margin-top:18px;background:linear-gradient(135deg,#FFF3DA,#FFE0C2);border-radius:22px;padding:20px;box-shadow:var(--shadow);border:2px solid var(--yellow-d);display:none}
+.reveal.show{display:block;animation:popr .5s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes popr{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.reveal .rh{display:flex;align-items:center;gap:13px}
+.reveal .rh .face{width:54px;height:54px;flex:none}
+.reveal .rh .rt{font-weight:800;font-size:19px}
+.reveal .rh .rt small{display:block;font-weight:600;font-size:12px;color:var(--ink-soft);margin-top:2px}
+.reveal .rtag{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}
+.reveal .rtag b{background:#fff;border-radius:999px;padding:4px 12px;font-size:11.5px;font-weight:800;color:var(--red);box-shadow:0 3px 8px rgba(140,50,25,.08)}
+.reveal .rdesc{font-size:13px;color:#6b4a2a;line-height:1.7;background:rgba(255,255,255,.55);border-radius:12px;padding:11px 14px}
+.reveal .radd{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.reveal .radd button{background:var(--red);color:#fff;border:none;border-radius:999px;font-weight:800;font-size:14px;padding:11px 22px;cursor:pointer;box-shadow:0 6px 16px rgba(218,41,28,.34);transition:transform .12s}
+.reveal .radd button.ghost{background:#fff;color:var(--red);box-shadow:none;border:1.5px solid var(--line)}
+.reveal .radd button:active{transform:scale(.96)}
+
+/* 构建区 */
+.builder{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;margin-top:16px;align-items:start}
+.builder>div{min-width:0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;position:sticky;top:74px;background:transparent;z-index:5}
+.chips::-webkit-scrollbar{height:0}
+.chip2{flex:none;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 15px;font-size:12.5px;font-weight:800;color:var(--ink-soft);white-space:nowrap;cursor:pointer}
+.chip2.on{background:var(--red);color:#fff;border-color:var(--red)}
+.menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px}
+.mcard{background:var(--paper);border-radius:20px;padding:10px;box-shadow:0 6px 16px rgba(140,50,25,.09);border:1px solid var(--line);cursor:pointer;position:relative;transition:transform .14s,box-shadow .14s}
+.mcard:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(140,50,25,.16)}
+.mcard:active{transform:scale(.97)}
+.mcard .frame{background:#FFF8EC;border-radius:14px;padding:9px;position:relative}
+.mcard .pic{width:100%;aspect-ratio:1;object-fit:contain;display:block;filter:drop-shadow(0 4px 7px rgba(0,0,0,.08))}
+.mcard .badge{position:absolute;top:6px;right:6px;width:30px;height:30px;transform:rotate(8deg);z-index:4}
+.mcard .nm{font-size:13px;font-weight:800;line-height:1.35;margin:8px 3px 4px;height:34px;overflow:hidden}
+.mcard .pr{display:flex;align-items:baseline;gap:5px;margin:0 3px}
+.mcard .pr b{color:var(--red);font-size:18px;font-weight:800}
+.mcard .pr b i{font-size:12px;font-style:normal}
+.mcard .pr s{color:#B7A99A;font-size:11.5px}
+.mcard .add{position:absolute;right:10px;bottom:10px;width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;box-shadow:0 5px 12px rgba(218,41,28,.42);font-size:20px;font-weight:800;line-height:1}
+.mcard .sticker{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 9px;transform:rotate(-4deg);border-radius:5px;box-shadow:0 2px 5px rgba(218,41,28,.35);white-space:nowrap;z-index:3}
+
+/* 拼盘侧栏 */
+.aside{position:sticky;top:84px}
+.plate{background:var(--paper);border:2.5px dashed var(--yellow-d);border-radius:20px;padding:13px;min-height:80px;box-shadow:var(--shadow);transition:background .15s}
+.plate.drag{border-color:var(--red);background:#FFF6E6}
+.plate .ph{text-align:center;color:var(--ink-soft);font-size:12.5px;padding:22px 8px;font-weight:600}
+.pitem{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);animation:pop .3s}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.pitem:last-child{border-bottom:none}
+.pitem .pf{width:32px;height:32px;flex:none}
+.pitem .pn{flex:1;font-size:13px;font-weight:800;line-height:1.25}
+.pitem .pn small{display:block;font-weight:600;font-size:10.5px;color:var(--ink-soft)}
+.pitem .pp{font-size:13px;font-weight:800;color:var(--red);min-width:46px;text-align:right}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper button{width:25px;height:25px;border:none;border-radius:8px;background:var(--cream);color:var(--ink);font-weight:800;font-size:15px;cursor:pointer}
+.stepper .q{font-size:13px;font-weight:800;min-width:15px;text-align:center}
+.totbar{margin-top:13px;background:var(--ink);border-radius:18px;padding:13px 16px;display:flex;align-items:center;gap:12px;color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.22)}
+.totbar .t{font-size:11px;opacity:.8}
+.totbar .pv{font-size:23px;font-weight:800}
+.totbar .sv{font-size:11px;color:var(--yellow);font-weight:800}
+.totbar .go{margin-left:auto;background:var(--yellow);color:#5a3b00;border:none;border-radius:999px;font-weight:800;font-size:15px;padding:12px 22px;display:flex;align-items:center;gap:6px;box-shadow:0 6px 16px rgba(242,169,0,.5);cursor:pointer;transition:transform .12s}
+.totbar .go:active{transform:scale(.96)}
+.legend{margin-top:11px;font-size:11px;color:var(--ink-soft);text-align:center;line-height:1.6}
+
+/* 角色气泡 */
+.mascot{position:fixed;right:14px;bottom:16px;max-width:min(330px,72vw);display:flex;align-items:flex-end;gap:9px;z-index:35;pointer-events:none;transition:opacity .3s}
+.mascot.hide{opacity:0}
+.mascot .mface{width:50px;height:50px;flex:none;filter:drop-shadow(0 5px 10px rgba(0,0,0,.22));animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.bubble{background:#fff;border-radius:16px;padding:10px 14px;font-size:12.5px;font-weight:700;line-height:1.5;box-shadow:0 8px 20px rgba(0,0,0,.16);position:relative;max-width:250px}
+.bubble::before{content:"";position:absolute;right:-7px;bottom:14px;width:14px;height:14px;background:#fff;border-radius:3px;transform:rotate(45deg)}
+.bubble.cheer{background:var(--red);color:#fff}
+.bubble.cheer::before{background:var(--red)}
+
+/* 撒花/小票 */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.conf{position:absolute;width:9px;height:14px;border-radius:2px;top:-20px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(106vh) rotate(560deg);opacity:.9}}
+.overlay{position:fixed;inset:0;background:rgba(40,20,10,.55);display:none;align-items:center;justify-content:center;z-index:70;padding:22px}
+.overlay.show{display:flex;animation:fade .25s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.receipt{width:100%;max-width:330px;background:#fff;color:#221E1F;border-radius:12px;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.45);transform:translateY(30px) scale(.94);animation:popr .42s cubic-bezier(.2,.9,.3,1.3) forwards;max-height:86vh;overflow:auto}
+.receipt .rtop{background:var(--red);color:#fff;text-align:center;padding:16px 10px 18px;position:relative}
+.receipt .rtop .arch{margin:0 auto 5px;display:block}
+.receipt .rtop h3{margin:0;font-size:16px;font-weight:800}
+.receipt .rtop p{margin:3px 0 0;font-size:10.5px;opacity:.92}
+.receipt .rbody{padding:15px 17px}
+.receipt .rtitle{text-align:center;font-weight:800;margin:2px 0 9px;color:var(--red)}
+.receipt .rrow{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px dashed #eee}
+.receipt .rrow .rn{font-weight:600}
+.receipt .rrow .rp{font-weight:800;color:var(--red)}
+.receipt .rtot{display:flex;justify-content:space-between;font-size:14px;font-weight:800;padding:12px 0 4px}
+.receipt .rnote{font-size:10.5px;color:var(--ink-soft);text-align:center;margin-top:10px;line-height:1.7}
+.receipt .stamp{position:absolute;right:16px;top:100px;width:86px;height:86px;border:3px solid var(--red);border-radius:50%;color:var(--red);display:grid;place-items:center;text-align:center;font-weight:800;font-size:14px;line-height:1.2;transform:rotate(-14deg);opacity:.92}
+.receipt .rclose{margin:6px 17px 17px}
+.receipt .rclose button{width:100%;background:var(--red);color:#fff;border:none;border-radius:999px;padding:13px;font-weight:800;font-size:14px;cursor:pointer}
+.fly{position:fixed;z-index:80;width:54px;height:54px;pointer-events:none;border-radius:12px;object-fit:contain;background:#FFF8EC;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+
+@media(max-width:980px){
+  .builder{grid-template-columns:1fr}
+  .aside{position:static;margin-top:18px}
+  .chips{top:64px}
+  .wheelbox{padding:18px}
+}
+@media(max-width:760px){
+  .topbar .nav{display:none}
+  .topbar .store{margin-left:0}
+}
+@media(max-width:560px){
+  .mascot{display:none}
+  .topbar{padding:11px 16px}
+  .menu{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
+  .hero h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <svg class="arch" viewBox="0 0 30 34"><path d="M3 33V14c0-6 4-10 9-10s9 4 9 10v19" fill="none" stroke="#FFC72C" stroke-width="5" stroke-linecap="round"/></svg>
+    <span class="bn">麦麦今日剧本<small>心情点餐剧场</small></span>
+    <nav class="nav">
+      <a href="#sec-mood">选心情</a>
+      <a href="#sec-quiz">答测验</a>
+      <a href="#sec-wheel">转转盘</a>
+      <a href="#sec-make">戏台</a>
+    </nav>
+    <div class="store">
+      <svg class="pin" width="16" height="16" viewBox="0 0 20 20"><path d="M10 1C6 1 3 4 3 8c0 5 7 11 7 11s7-6 7-11c0-4-3-7-7-7z" fill="#DA291C"/><circle cx="10" cy="8" r="2.6" fill="#fff"/></svg>
+      <span id="storeName">--</span>
+      <button class="switch">切换</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <span class="kicker">今日心情剧场</span>
+    <h1>今天，你被<span class="hl">哪一出戏</span>选中？</h1>
+    <p>不选菜，先选心情。答 3 题小测验，再转一次大转盘——麦麦替你读心，从真实菜单里端出今天该吃的这一桌。</p>
+    <div class="meta">
+      <span class="pill">门店 <b id="storeName2">--</b></span>
+      <span class="pill">到店取餐</span>
+      <span class="pill">距您 <b>97m</b></span>
+      <span class="pill">价格经官方 MCP 核验</span>
+    </div>
+  </div>
+
+  <div class="sec-h" id="sec-mood"><span class="bar"></span><h2>第一步 · 选个心情</h2><span class="step">MOOD</span></div>
+  <div class="moods" id="moods"></div>
+  <div class="moodNarr" id="moodNarr">还没选心情？先点上面一张脸，让今天的人设亮起来。</div>
+
+  <div class="sec-h" id="sec-quiz"><span class="bar"></span><h2>第二步 · 答 3 题，麦麦读你</h2><span class="step">QUIZ</span></div>
+  <div class="quiz" id="quiz"></div>
+
+  <div class="sec-h" id="sec-wheel"><span class="bar"></span><h2>第三步 · 转大转盘，揭晓今日剧本</h2><span class="step">SPIN</span></div>
+  <div class="wheelbox">
+    <div class="wheelwrap">
+      <div class="pointer"></div>
+      <div class="wheel" id="wheel"><div class="hub"><svg viewBox="0 0 30 34"><path d="M3 33V14c0-6 4-10 9-10s9 4 9 10v19" fill="none" stroke="#FFC72C" stroke-width="5" stroke-linecap="round"/></svg></div></div>
+    </div>
+    <div class="wheelinfo">
+      <div class="ws">转盘上的六出戏，对应六种心情——</div>
+      <div class="wn" id="wheelName">先选心情 + 答完测验</div>
+      <button class="spinbtn" id="spinBtn" disabled>
+        <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 7 7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M15 1v4h-4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        转一次
+      </button>
+      <div class="wheelhint" id="wheelHint">选好心情、答完 3 题后，「转一次」就会亮起。若已选心情，转盘会偏向你此刻的感受；没选则随机命定。</div>
+    </div>
+  </div>
+
+  <div class="reveal" id="reveal">
+    <div class="rh">
+      <div class="face" id="rFace"></div>
+      <div class="rt" id="rTitle">--<small id="rSub"></small></div>
+    </div>
+    <div class="rtag" id="rTags"></div>
+    <div class="rdesc" id="rDesc"></div>
+    <div class="radd">
+      <button id="rFill">把这桌端上拼盘</button>
+      <button class="ghost" id="rRespin">重新转一次</button>
+    </div>
+  </div>
+
+  <div class="sec-h" id="sec-make"><span class="bar"></span><h2>戏台上的吃食 · 可微调</h2><span class="more">真实菜单 · 营养数据</span></div>
+  <div class="builder">
+    <div>
+      <div class="chips" id="chips"></div>
+      <div class="menu" id="menu"></div>
+    </div>
+    <div class="aside">
+      <div class="plate" id="plate"><div class="ph">盘子空空，先去转转盘，让麦麦替你端一桌～</div></div>
+      <div class="totbar">
+        <div>
+          <div class="t">本场戏份</div>
+          <div><span class="pv" id="totP">¥0</span> <span class="sv" id="totS"></span></div>
+        </div>
+        <button class="go" id="goBtn" disabled>出戏 <svg width="14" height="14" viewBox="0 0 13 13"><path d="M2 6.5h8M7 3l4 3.5L7 10" stroke="#5a3b00" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div class="legend">转盘端出的套餐会自动入盘 · 也可点菜单手动加菜 · 满意了就「出戏」生成专属小票</div>
+    </div>
+  </div>
+</div>
+
+<div class="mascot hide" id="mascot"><div class="bubble" id="bubble"></div><div class="mface" id="mface"></div></div>
+<div id="confetti"></div>
+<div class="overlay" id="overlay"><div class="receipt" id="receipt"></div></div>
+
+<script>
+const DATA = {"store": {"name": "麦当劳广州海珠广场餐厅", "code": "1400067"}, "items": [{"cat": "人气热卖", "code": "1100", "name": "巨无霸", "price": 25.5, "orig": 25.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_1100_320.png", "color": "#DA291C", "nut": [513, 27, 26, 42, 961], "dessert": false, "share": false, "serv": 1, "cal": 513, "pro": 27}, {"cat": "人气热卖", "code": "9900015151", "name": "麦麦周末双人餐", "price": 49.9, "orig": 85.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900015151_320.gif", "color": "#FFC72C", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "人气热卖", "code": "9900011056", "name": "全明星双人分享餐八件套", "price": 49.9, "orig": 114.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_9900011056_320.gif", "color": "#2E7D32", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "鸡肉汉堡/卷", "code": "1440", "name": "麦辣鸡腿汉堡", "price": 22.5, "orig": 22.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260325/product/MS_1440_320.png", "color": "#2980B9", "nut": [485, 24, 24, 42, 1208], "dessert": false, "share": false, "serv": 1, "cal": 485, "pro": 24}, {"cat": "鸡肉汉堡/卷", "code": "1406", "name": "板烧鸡腿堡", "price": 23.5, "orig": 23.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20241008/product/MS_1406_320.png", "color": "#8E44AD", "nut": [391, 23, 17, 35, 1041], "dessert": false, "share": false, "serv": 1, "cal": 391, "pro": 23}, {"cat": "鸡肉汉堡/卷", "code": "1450", "name": "麦香鸡", "price": 17, "orig": 17, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_1450_320.png", "color": "#E67E22", "nut": [369, 15, 17, 39, 731], "dessert": false, "share": false, "serv": 1, "cal": 369, "pro": 15}, {"cat": "鸡肉汉堡/卷", "code": "9900005456", "name": "麦辣鸡腿汉堡三件套", "price": 33.5, "orig": 46, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_G504968_320.png", "color": "#16A085", "nut": null, "dessert": false, "share": false, "serv": 1, "cal": null, "pro": null}, {"cat": "巨无霸牛鱼肉堡", "code": "1600", "name": "麦香鱼", "price": 22.5, "orig": 22.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_1600_320.png", "color": "#C0392B", "nut": [325, 16, 13, 35, 556], "dessert": false, "share": false, "serv": 1, "cal": 325, "pro": 16}, {"cat": "巨无霸牛鱼肉堡", "code": "4648", "name": "不素之霸双层牛堡", "price": 26.5, "orig": 26.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_4648_320.png", "color": "#27AE60", "nut": [493, 28, 27, 34, 1012], "dessert": false, "share": false, "serv": 1, "cal": 493, "pro": 28}, {"cat": "巨无霸牛鱼肉堡", "code": "1120", "name": "双层吉士汉堡", "price": 23, "orig": 23, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_1120_320.png", "color": "#D35400", "nut": [429, 27, 22, 31, 1017], "dessert": false, "share": false, "serv": 1, "cal": 429, "pro": 27}, {"cat": "巨无霸牛鱼肉堡", "code": "9900003586", "name": "双层深海鳕鱼堡", "price": 24, "orig": 24, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_9900003586_320.png", "color": "#DA291C", "nut": [485, 28, 21, 46, 917], "dessert": false, "share": false, "serv": 1, "cal": 485, "pro": 28}, {"cat": "安格斯MAX", "code": "511781", "name": "培根安格斯厚牛堡", "price": 34.5, "orig": 34.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_511781_320.png", "color": "#FFC72C", "nut": [707, 34, 44, 43, 1037], "dessert": false, "share": false, "serv": 1, "cal": 707, "pro": 34}, {"cat": "安格斯MAX", "code": "511782", "name": "芝士安格斯厚牛堡", "price": 31.5, "orig": 31.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_511782_320.png", "color": "#2E7D32", "nut": [696, 32, 44, 43, 897], "dessert": false, "share": false, "serv": 1, "cal": 696, "pro": 32}, {"cat": "小食甜品/其他", "code": "4810", "name": "薯条", "price": 13.5, "orig": 13.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20250523/product/MS_G4810_320_1747877491921.png", "color": "#2980B9", "nut": [289, 4, 12, 38, 165], "dessert": true, "share": false, "serv": 1, "cal": 289, "pro": 4}, {"cat": "小食甜品/其他", "code": "1401", "name": "麦乐鸡", "price": 14, "orig": 14, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260529/product/MS_G1401_320.png", "color": "#8E44AD", "nut": [213, 12, 12, 13, 422], "dessert": true, "share": false, "serv": 1, "cal": 213, "pro": 12}, {"cat": "小食甜品/其他", "code": "6102", "name": "苹果片", "price": 7, "orig": 7, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_6102_320.png", "color": "#E67E22", "nut": [32, 0, 0, 7, 0], "dessert": true, "share": false, "serv": 1, "cal": 32, "pro": 0}, {"cat": "小食甜品/其他", "code": "515837", "name": "圆筒冰淇淋", "price": 5, "orig": 5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G515837_320.png", "color": "#16A085", "nut": [93, 2, 3, 14, 36], "dessert": true, "share": false, "serv": 1, "cal": 93, "pro": 2}, {"cat": "小食甜品/其他", "code": "9900008754", "name": "经典麦旋风", "price": 15.5, "orig": 15.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G9900008754_320.gif", "color": "#C0392B", "nut": [266, 5, 9, 40, 116], "dessert": true, "share": false, "serv": 1, "cal": 266, "pro": 5}, {"cat": "小食甜品/其他", "code": "9900008752", "name": "派", "price": 8.5, "orig": 8.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G9900008752_320.gif", "color": "#27AE60", "nut": [232, 2, 12, 28, 159], "dessert": true, "share": false, "serv": 1, "cal": 232, "pro": 2}, {"cat": "炸鸡", "code": "1700", "name": "麦辣鸡翅", "price": 15, "orig": 15, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260325/product/MS_G1700_320.png", "color": "#D35400", "nut": [224, 13, 15, 9, 537], "dessert": false, "share": false, "serv": 1, "cal": 224, "pro": 13}, {"cat": "炸鸡", "code": "520445", "name": "薄皮焦香V翅", "price": 16, "orig": 16, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20241202/product/MS_520445_320.png", "color": "#DA291C", "nut": [192, 17, 11, 6, 594], "dessert": false, "share": false, "serv": 1, "cal": 192, "pro": 17}, {"cat": "炸鸡", "code": "521156", "name": "那么大鸡排（椒盐风味）", "price": 14, "orig": 14, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_521156_320.png", "color": "#FFC72C", "nut": [385, 24, 21, 24, 996], "dessert": false, "share": false, "serv": 1, "cal": 385, "pro": 24}, {"cat": "饮品", "code": "9900008751", "name": "可乐", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900008751_320.gif", "color": "#2E7D32", "nut": [147, 0, 0, 36, 0], "dessert": false, "share": false, "serv": 1, "cal": 147, "pro": 0}, {"cat": "饮品", "code": "3010", "name": "雪碧", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G3010_320.png", "color": "#2980B9", "nut": [105, 0, 0, 26, 29], "dessert": false, "share": false, "serv": 1, "cal": 105, "pro": 0}, {"cat": "饮品", "code": "3755", "name": "纯牛奶(盒装)", "price": 10.5, "orig": 10.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20240731/product/MS_3755_320.png", "color": "#8E44AD", "nut": [129, 7, 7, 10, 73], "dessert": false, "share": false, "serv": 1, "cal": 129, "pro": 7}, {"cat": "饮品", "code": "515281", "name": "阳光柠檬红茶", "price": 10, "orig": 10, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G515280_320.png", "color": "#E67E22", "nut": [117, 0, 0, 29, 17], "dessert": false, "share": false, "serv": 1, "cal": 117, "pro": 0}, {"cat": "饮品", "code": "520689", "name": "鲜萃咖啡", "price": 9.5, "orig": 9.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_G520688_320.gif", "color": "#16A085", "nut": [13, 1, 0, 0, 3], "dessert": false, "share": false, "serv": 1, "cal": 13, "pro": 1}, {"cat": "饮品", "code": "3505", "name": "锡兰红茶", "price": 11.5, "orig": 11.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_3505_320.png", "color": "#C0392B", "nut": [2, 0, 0, 0, 0], "dessert": false, "share": false, "serv": 1, "cal": 2, "pro": 0}, {"cat": "开心乐园", "code": "9900016056", "name": "麦乐鸡开心乐园餐", "price": 25, "orig": 25, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016056_320.png", "color": "#27AE60", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "开心乐园", "code": "9900016057", "name": "汉堡开心乐园餐", "price": 23.5, "orig": 23.5, "img": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016057_320.png", "color": "#D35400", "nut": null, "dessert": false, "share": true, "serv": 2, "cal": null, "pro": null}, {"cat": "早餐", "code": "521730", "name": "枫糖风味厚松饼猪柳蛋堡", "price": 22, "orig": 22, "img": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_521730_320.png", "color": "#DA291C", "nut": [387, 23, 21, 25, 846], "dessert": false, "share": false, "serv": 1, "cal": 387, "pro": 23}]};
+const ITEMS = DATA.items, STORE = DATA.store;
+const byCode = {}; ITEMS.forEach(i=>byCode[i.code]=i);
+
+function mascot(type, mood){
+  const eye=(x,y)=>`<circle cx="${x}" cy="${y}" r="3.4" fill="#221E1F"/>`;
+  let base="";
+  if(type==="burger"){ base=`<rect x="8" y="20" width="34" height="9" rx="4" fill="#E8A85C"/><rect x="6" y="13" width="38" height="9" rx="4" fill="#F4C430"/><rect x="9" y="27" width="32" height="7" rx="3" fill="#7BC16B"/><rect x="6" y="33" width="38" height="8" rx="4" fill="#E8A85C"/>`; }
+  else if(type==="fries"){ base=`<path d="M10 22h32l-4 18H14z" fill="#DA291C"/><rect x="15" y="14" width="4" height="12" rx="2" fill="#F4C430"/><rect x="23" y="11" width="4" height="15" rx="2" fill="#F4C430"/><rect x="31" y="14" width="4" height="12" rx="2" fill="#F4C430"/>`; }
+  else if(type==="drink"){ base=`<path d="M14 16h24l-3 26H17z" fill="#FFC72C"/><rect x="22" y="6" width="3.5" height="14" rx="1.5" fill="#DA291C" transform="rotate(12 23 13)"/><rect x="18" y="16" width="16" height="5" rx="2" fill="#fff" opacity=".5"/>`; }
+  else if(type==="icecream"){ base=`<path d="M20 34l6-12 6 12z" fill="#E8A85C"/><circle cx="26" cy="18" r="12" fill="#FFF3E0"/>`; }
+  else { base=`<path d="M14 22c0-9 22-9 22 2 0 8-8 10-12 10-5 0-10-3-10-12z" fill="#C9772E"/><rect x="30" y="30" width="5" height="9" rx="2" fill="#E8C9A0"/>`; }
+  let mouth;
+  if(mood==="cheer") mouth=`<path d="M22 40q4 6 8 0" stroke="#221E1F" stroke-width="2.4" fill="#fff" stroke-linejoin="round"/>`;
+  else if(mood==="worry") mouth=`<path d="M22 44q4-5 8 0" stroke="#221E1F" stroke-width="2.2" fill="none"/>`;
+  else mouth=`<path d="M22 41q4 4 8 0" stroke="#221E1F" stroke-width="2.2" fill="none"/>`;
+  const blush=(mood==="cheer")?`<circle cx="15" cy="40" r="2.6" fill="#FF9D8A" opacity=".7"/><circle cx="37" cy="40" r="2.6" fill="#FF9D8A" opacity=".7"/>`:"";
+  return `<svg viewBox="0 0 52 52" width="100%" height="100%">${base}${eye(20,36)}${eye(32,36)}${blush}${mouth}</svg>`;
+}
+
+const MOODS = [
+  {id:"tired", name:"累瘫了", tag:"治愈系", face:"icecream", color:"#7B5EA7",
+   narr:"加班到十点，城市都睡了，只有你和胃还醒着。今晚不谈卡路里，谈开心——至少来口甜的。"},
+  {id:"hungry", name:"饿狠了", tag:"顶饱派", face:"fries", color:"#E8833A",
+   narr:"胃在打鼓。今天不整虚的，要顶饱、要肉、要上得够快。"},
+  {id:"low", name:"有点丧", tag:"安慰奖", face:"drink", color:"#2C7FB8",
+   narr:"被生活按了暂停键。不想说话，只想慢慢啃点温和的、不烫嘴的。"},
+  {id:"hype", name:"嗨起来", tag:"气氛组", face:"burger", color:"#DA291C",
+   narr:"周末的魂儿醒了！叫上人，要大份、要热闹、要边吃边闹。"},
+  {id:"crave", name:"嘴馋了", tag:"享乐派", face:"burger", color:"#C0392B",
+   narr:"别的都不香，就馋那一口好的。今天允许自己奢侈一下。"},
+  {id:"warm", name:"想暖点", tag:"小太阳", face:"drink", color:"#E8A85C",
+   narr:"天气凉，心也要暖。来份不油腻、刚刚好、吃完身子发暖的。"}
+];
+
+// 每个心情对应的基础套餐（真实商品 code）
+const COMBO = {
+  tired:  {title:"深夜治愈系 · 被宠的一天", face:"icecream", items:["1440","9900008754","9900008751"],
+           desc:"麦辣鸡腿堡的热乎、麦旋风的甜、可乐的气——今晚你值得被好好喂一顿。"},
+  hungry: {title:"干饭顶饱王 · 今天不客气", face:"fries", items:["1100","4810","1700","9900008751"],
+           desc:"巨无霸压阵、薯条垫底、鸡翅加肉、可乐收尾。这一桌，胃说了算。"},
+  low:    {title:"慢生活安慰奖 · 慢慢来", face:"drink", items:["1406","9900008752","3755"],
+           desc:"板烧的嫩、派的小甜、纯牛奶的温。不赶时间，一口一口把丧吃掉。"},
+  hype:   {title:"派对气氛组 · 就是要嗨", face:"burger", items:["9900011056","1700","515837"],
+           desc:"全明星八件套往桌上一倒，鸡翅圆筒齐活。今天的主角，是你。"},
+  crave:  {title:"解馋享乐派 · 吃就吃好的", face:"burger", items:["511781","4810","9900008754"],
+           desc:"培根安格斯的厚、薯条的脆、麦旋风的绵。馋，就得用好的哄自己。"},
+  warm:   {title:"暖心小太阳 · 刚刚好", face:"drink", items:["1600","515281","6102"],
+           desc:"麦香鱼的软、柠檬红茶的暖、苹果片的清。不油不腻，吃完一身轻。"}
+};
+
+const QUIZ = [
+  {id:"people", q:"今天和谁吃？", opts:[{t:"一个人",v:1},{t:"两个人",v:2},{t:"一家人",v:3},{t:"兄弟开黑",v:4}]},
+  {id:"wallet", q:"今天钱包怎么说？", opts:[{t:"省着点",v:"save"},{t:"随意",v:"ok"},{t:"犒劳自己",v:"treat"}]},
+  {id:"health", q:"热量管一管？", opts:[{t:"随意",v:"any"},{t:"稍微控制",v:"light"},{t:"健身硬核",v:"fit"}]}
+];
+
+let state = { mood:null, quiz:{}, cart:{} };
+
+/* ---------- 心情 ---------- */
+function renderMoods(){
+  document.getElementById("moods").innerHTML = MOODS.map(m=>`
+    <div class="mood ${state.mood===m.id?'on':''}" data-id="${m.id}" onclick="pickMood('${m.id}')">
+      <div class="pick">✓</div>
+      <div class="face">${mascot(m.face,'happy')}</div>
+      <div class="mname">${m.name}</div>
+      <div class="mtag">${m.tag}</div>
+    </div>`).join("");
+}
+function pickMood(id){
+  state.mood=id; renderMoods();
+  const m=MOODS.find(x=>x.id===id);
+  document.getElementById("moodNarr").innerHTML = `<b style="color:${m.color}">「${m.name}」</b> ${m.narr}`;
+  document.getElementById("wheelName").textContent = m.name + " → " + COMBO[id].title;
+  speak(m.face, "cheer", m.name+"？懂了，今天这出戏交给我。");
+  refreshSpin();
+}
+
+/* ---------- 测验 ---------- */
+function renderQuiz(){
+  document.getElementById("quiz").innerHTML = QUIZ.map((q,qi)=>`
+    <div class="qcard">
+      <div class="qt"><span class="qn">${qi+1}</span>${q.q}</div>
+      <div class="qopts">
+        ${q.opts.map(o=>`<div class="qopt ${state.quiz[q.id]===o.v?'on':''}" onclick="ansQuiz('${q.id}','${o.v}')">${o.t}</div>`).join("")}
+      </div>
+    </div>`).join("");
+}
+function ansQuiz(qid, val){
+  state.quiz[qid] = (val==="1"||val==="2"||val==="3"||val==="4")?parseInt(val):val;
+  renderQuiz(); refreshSpin();
+}
+function quizDone(){ return QUIZ.every(q=>state.quiz[q.id]!==undefined); }
+
+/* ---------- 转盘 ---------- */
+const WSEG=60;
+let wheelRot=0, spinning=false;
+function buildWheelLabels(){
+  const wheel=document.getElementById("wheel");
+  MOODS.forEach((m,i)=>{
+    const ang=(i*WSEG+WSEG/2)*Math.PI/180;
+    const r=110;
+    const x=Math.sin(ang)*r, y=-Math.cos(ang)*r;
+    const el=document.createElement("div");
+    el.className="lbl";
+    el.innerHTML=`<span style="transform:translate(-50%,-50%) translate(${x}px,${y}px)">${m.name}</span>`;
+    wheel.appendChild(el);
+  });
+}
+function refreshSpin(){
+  const ok = quizDone();
+  document.getElementById("spinBtn").disabled = !ok || spinning;
+  const hint=document.getElementById("wheelHint");
+  if(!quizDone()) hint.textContent="选好心情、答完 3 题后，「转一次」就会亮起。";
+  else if(state.mood) hint.textContent="已锁定心情「"+MOODS.find(m=>m.id===state.mood).name+"」，转盘会偏向这出戏。点「转一次」揭晓。";
+  else hint.textContent="测验已答完，未选心情将随机命定一桌。点「转一次」揭晓。";
+}
+function spin(){
+  if(!quizDone()||spinning) return;
+  spinning=true; document.getElementById("spinBtn").disabled=true;
+  const k = state.mood ? MOODS.findIndex(m=>m.id===state.mood) : Math.floor(Math.random()*6);
+  const targetMod = (360 - (k*WSEG + WSEG/2)) % 360;
+  const full = 360*6;
+  const delta = ((targetMod - (wheelRot%360)) + 360) % 360;
+  wheelRot = wheelRot + full + delta;
+  document.getElementById("wheel").style.transform = `rotate(${wheelRot}deg)`;
+  speak(MOODS[k].face,"happy","转盘转起来咯——看看今天命定哪一桌！");
+  setTimeout(()=>{ spinning=false; reveal(k); refreshSpin(); }, 4600);
+}
+
+/* ---------- 揭晓 ---------- */
+function refine(items){
+  let arr = items.slice();
+  const p = state.quiz.people||1, w = state.quiz.wallet||"ok", h = state.quiz.health||"any";
+  if(p===3) arr=["9900015151","6102","9900008751"];
+  else if(p===4) arr=["9900011056","1700","515837"];
+  else if(p===2){ if(!arr.includes("9900008751")) arr.push("9900008751"); }
+  if(w==="treat"){ const up={"1440":"511781","1406":"511781","1100":"511781","1600":"511781","1450":"511781"}; arr=arr.map(c=>up[c]||c); }
+  else if(w==="save"){ const down={"511781":"1440","511782":"1406"}; arr=arr.map(c=>down[c]||c); }
+  if(h==="light"){ arr=arr.filter(c=>!["9900008754","9900008752","515837"].includes(c)); if(!arr.some(c=>["6102","3755"].includes(c))) arr.push("6102"); }
+  else if(h==="fit"){ arr=arr.filter(c=>!["9900008754","9900008752","515837","4810"].includes(c)); if(!arr.some(c=>["511781","511782","9900005456"].includes(c))) arr.push("511781"); if(!arr.some(c=>["6102","3755"].includes(c))) arr.push("6102"); }
+  // 去重保序
+  const seen={}, out=[];
+  arr.forEach(c=>{ if(!seen[c]){seen[c]=1; out.push(c);} });
+  return out;
+}
+function tagText(){
+  const p=state.quiz.people, w=state.quiz.wallet, h=state.quiz.health;
+  const pm={1:"独食",2:"双人",3:"合家欢",4:"开黑平摊"}[p]||"";
+  const wm={save:"精打细算",ok:"随性",treat:"宠自己"}[w]||"";
+  const hm={any:"热量自由",light:"轻负担",fit:"健身硬核"}[h]||"";
+  return [pm,wm,hm];
+}
+function reveal(k){
+  const m=MOODS[k], c=COMBO[m.id];
+  const items=refine(c.items);
+  state.persona = {title:c.title, sub:m.name+" · "+c.desc.slice(0,0), face:m.face, items};
+  document.getElementById("rFace").innerHTML = mascot(m.face,"cheer");
+  document.getElementById("rTitle").innerHTML = c.title + "<small>"+m.name+" · 今日命定剧本</small>";
+  document.getElementById("rTags").innerHTML = tagText().map(t=>`<b>${t}</b>`).join("");
+  document.getElementById("rDesc").textContent = c.desc;
+  const rv=document.getElementById("reveal"); rv.classList.add("show"); rv.scrollIntoView({behavior:"smooth",block:"center"});
+  speak(m.face,"cheer","揭晓！这桌就是今天为你写的戏——点「端上拼盘」就能开吃。");
+}
+document.getElementById("rFill").addEventListener("click",()=>{
+  if(!state.persona) return;
+  state.cart={}; state.persona.items.forEach(c=>state.cart[c]=1);
+  renderPlate(); updateTot();
+  document.getElementById("sec-make").scrollIntoView({behavior:"smooth",block:"start"});
+  speak(state.persona.face,"cheer","已经替你摆好盘啦，要加要减随你，满意就「出戏」。");
+});
+document.getElementById("rRespin").addEventListener("click",()=>{
+  if(spinning) return; spin();
+});
+document.getElementById("spinBtn").addEventListener("click",spin);
+
+/* ---------- 菜单/拼盘（可微调） ---------- */
+const CATS=["全部", ...Array.from(new Set(ITEMS.map(i=>i.cat)))];
+let curCat="全部";
+function renderChips(){ document.getElementById("chips").innerHTML=CATS.map(c=>`<div class="chip2 ${curCat===c?'on':''}" onclick="setCat('${c}')">${c}</div>`).join(""); }
+function setCat(c){ curCat=c; renderChips(); renderMenu(); }
+function renderMenu(){
+  const list=ITEMS.filter(i=>curCat==="全部"||i.cat===curCat);
+  document.getElementById("menu").innerHTML=list.map(i=>{
+    const off=i.orig>i.price, stk=i.share?"分享餐":(i.dessert?"甜在心":null);
+    return `<div class="mcard" data-code="${i.code}" onclick="addItem('${i.code}',event)">
+      ${stk?`<div class="sticker">${stk}</div>`:''}
+      <div class="frame">
+        ${i.img?`<img class="pic" src="${i.img}" alt="${i.name}" onerror="this.style.display='none'">`:`<div class="pic" style="display:grid;place-items:center;font-size:11px;color:#bba">无图</div>`}
+        ${off?`<div class="badge">${archBadge('#DA291C')}</div>`:''}
+      </div>
+      <div class="nm">${i.name}</div>
+      <div class="pr"><b><i>¥</i>${i.price}</b>${off?`<s>¥${i.orig}</s>`:''}</div>
+      <div class="add">+</div>
+    </div>`;
+  }).join("");
+}
+function archBadge(color){ return `<svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="${color}"/><path d="M9 23V12c0-4 3-6 6-6s6 2 6 6v11" fill="none" stroke="#FFC72C" stroke-width="3.4" stroke-linecap="round"/></svg>`; }
+function addItem(code, ev){
+  state.cart[code]=(state.cart[code]||0)+1;
+  if(ev) flyToPlate(ev.currentTarget, code);
+  renderPlate(); updateTot();
+}
+function chg(code,d){
+  state.cart[code]=(state.cart[code]||0)+d;
+  if(state.cart[code]<=0) delete state.cart[code];
+  renderPlate(); updateTot();
+}
+function flyToPlate(card, code){
+  const img=card.querySelector(".pic");
+  if(!img||img.style.display==="none") return;
+  const r=img.getBoundingClientRect();
+  const f=img.cloneNode(true); f.className="fly"; f.style.left=r.left+"px"; f.style.top=r.top+"px";
+  document.body.appendChild(f);
+  const plate=document.getElementById("plate").getBoundingClientRect();
+  requestAnimationFrame(()=>{ f.style.transition="transform .55s cubic-bezier(.4,1.4,.5,1), opacity .55s"; f.style.transform=`translate(${plate.left+r.width/2-r.left}px, ${plate.top+r.height/2-r.top}px) scale(.25) rotate(20deg)`; f.style.opacity=".2"; });
+  setTimeout(()=>f.remove(),600);
+}
+function renderPlate(){
+  const codes=Object.keys(state.cart), el=document.getElementById("plate");
+  if(!codes.length){ el.innerHTML='<div class="ph">盘子空空，先去转转盘，让麦麦替你端一桌～</div>'; return; }
+  el.innerHTML=codes.map(c=>{ const i=byCode[c],q=state.cart[c];
+    return `<div class="pitem">
+      <div class="pf">${mascot(i.face,'happy')}</div>
+      <div class="pn">${i.name}<small>¥${i.price} · ${i.cal!=null?i.cal+'kcal':(i.pro!=null?'套餐':"")}</small></div>
+      <div class="stepper"><button onclick="chg('${c}',-1)">−</button><span class="q">${q}</span><button onclick="chg('${c}',1)">+</button></div>
+      <div class="pp">¥${(i.price*q).toFixed(1)}</div>
+    </div>`;
+  }).join("");
+}
+function totals(){
+  let price=0,cal=0,pro=0,serv=0,calComplete=true;
+  for(const c in state.cart){ const i=byCode[c],q=state.cart[c];
+    price+=i.price*q;
+    if(i.cal!=null) cal+=i.cal*q; else calComplete=false;
+    if(i.pro!=null) pro+=i.pro*q;
+    serv+=i.serv*q;
+  }
+  return {price,cal,pro,serv,calComplete,count:Object.values(state.cart).reduce((a,b)=>a+b,0)};
+}
+function updateTot(){
+  const t=totals();
+  document.getElementById("totP").textContent="¥"+t.price.toFixed(1);
+  const orig=Object.keys(state.cart).reduce((a,c)=>a+byCode[c].orig*state.cart[c],0);
+  const sv=orig-t.price;
+  document.getElementById("totS").textContent=sv>0?("省 ¥"+sv.toFixed(1)):"";
+  document.getElementById("goBtn").disabled=(t.count===0);
+}
+function checkout(){
+  const p=state.persona, t=totals();
+  const codes=Object.keys(state.cart);
+  const rows=codes.map(c=>{const i=byCode[c],q=state.cart[c];return `<div class="rrow"><span class="rn">${i.name} ×${q}</span><span class="rp">¥${(i.price*q).toFixed(1)}</span></div>`;}).join("");
+  const orig=codes.reduce((a,c)=>a+byCode[c].orig*state.cart[c],0);
+  const sv=orig-t.price, now=new Date();
+  const ptitle = p? p.title : "今日随心配";
+  document.getElementById("receipt").innerHTML=`
+    <div class="rtop">
+      <svg class="arch" width="26" height="30" viewBox="0 0 30 34"><path d="M3 33V14c0-6 4-10 9-10s9 4 9 10v19" fill="none" stroke="#FFC72C" stroke-width="5" stroke-linecap="round"/></svg>
+      <h3>麦麦今日剧本 · 小票</h3>
+      <p>${STORE.name} · 到店取餐</p>
+      <p>${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}</p>
+    </div>
+    <div class="rbody">
+      <div class="rtitle">《${ptitle}》杀青</div>
+      ${rows}
+      <div class="rtot"><span>合计</span><span style="color:#DA291C">¥${t.price.toFixed(1)}</span></div>
+      <div class="rrow"><span class="rn">原价 / 立省</span><span class="rp">¥${orig.toFixed(1)} <span style="color:#2E9E4F;font-size:11px">省¥${sv.toFixed(1)}</span></span></div>
+      <div class="rrow"><span class="rn">总热量</span><span class="rp">${t.cal}${t.calComplete?'':'≈'} kcal${t.calComplete?'':' (部分套餐无营养数据)'}</span></div>
+      <div class="rrow"><span class="rn">蛋白 / 人份</span><span class="rp">${t.pro}g / ${t.serv}份</span></div>
+      <div class="stamp">剧本<br>通关</div>
+      <div class="rnote">本场戏份由麦当劳官方 MCP 真实菜单与营养数据支撑<br>价格经 calculate-price 核验 · 仅演示，未实际下单</div>
+    </div>
+    <div class="rclose"><button onclick="closeRcpt()">再来一出</button></div>`;
+  document.getElementById("overlay").classList.add("show"); confetti();
+  speak(state.persona?state.persona.face:"burger","cheer","这出戏，杀青！明天还想演哪一出？");
+}
+function closeRcpt(){ document.getElementById("overlay").classList.remove("show"); }
+function confetti(){
+  const box=document.getElementById("confetti"), cols=["#DA291C","#FFC72C","#2E9E4F","#ffffff","#E8833A"];
+  for(let i=0;i<90;i++){ const d=document.createElement("div"); d.className="conf";
+    d.style.left=Math.random()*100+"vw"; d.style.background=cols[i%cols.length];
+    d.style.animationDuration=(1.6+Math.random()*1.4)+"s"; d.style.animationDelay=(Math.random()*0.3)+"s";
+    d.style.transform=`rotate(${Math.random()*360}deg)`; box.appendChild(d); setTimeout(()=>d.remove(),3200);
+  }
+}
+let speakTimer=null;
+function speak(face, mood, txt){
+  const m=document.getElementById("mascot");
+  document.getElementById("mface").innerHTML=mascot(face||"burger", mood||"happy");
+  const b=document.getElementById("bubble"); b.className="bubble"+(mood==="cheer"?' cheer':''); b.textContent=txt||"";
+  m.classList.remove("hide"); clearTimeout(speakTimer);
+  speakTimer=setTimeout(()=>m.classList.add("hide"),4600);
+}
+
+document.getElementById("storeName").textContent=STORE.name;
+document.getElementById("storeName2").textContent=STORE.name;
+document.getElementById("goBtn").addEventListener("click",checkout);
+document.getElementById("overlay").addEventListener("click",e=>{ if(e.target.id==="overlay") closeRcpt(); });
+buildWheelLabels(); renderMoods(); renderQuiz(); renderChips(); renderMenu(); renderPlate(); refreshSpin();
+</script>
+</body>
+</html>
