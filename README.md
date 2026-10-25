@@ -1,7 +1,7 @@
 # 麦麦今日剧本 · 心情点餐剧场（McDonald's Mood Diner）
 
 > 麦当劳 × WorkBuddy 创意开发大赛参赛作品
-> 基于麦当劳中国官方 MCP Server（https://github.com/M-China/mcd-mcp-server）构建的 **强交互 / 叙事驱动点餐体验**
+> 基于麦当劳中国官方 MCP Server（ https://github.com/M-China/mcd-mcp-server ） 构建的**强交互 / 叙事驱动点餐体验**
 
 ## 它是什么
 
