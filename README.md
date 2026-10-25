@@ -46,11 +46,15 @@
 ## 目录结构
 
 ```
-mcd-gachapon-skill/
-├── SKILL.md                  # 技能定义（WorkBuddy 加载，取数 + 安全确认）
+McDonald-Pay/
+├── SKILL-mood-diner.md       # 主作品 Skill 定义（WorkBuddy 加载：心情点餐剧场，取数 + 安全确认）
+├── SKILL.md                  # 备选创意 Skill：麦麦扭蛋机（积分抽奖游戏化）
 ├── maimai-combo.html         # 主交付：麦麦今日剧本 · 心情点餐剧场
 ├── maimai-gachapon.html      # 早期备选原型：麦麦扭蛋机
 ├── maimai-gachapon-real.html # 扭蛋机真实接入版
+├── CONTEST_DECLARATION.md    # 参赛声明（官方原文）
+├── MCP_INTEGRATION.md        # MCP 接入说明
+├── workbuddy.md              # WorkBuddy 专项奖励交付上下文
 └── README.md                 # 本文件
 ```
 
@@ -90,4 +94,4 @@ mcd-gachapon-skill/
 
 ## 参赛声明
 
-本作品基于麦当劳中国官方 MCP Server 能力开发，符合大赛「基于麦当劳 MCP 能力开放你的 Skill」要求。
+本作品 = **麦麦点餐助手（游戏化创意 Skill）**，基于麦当劳中国官方 MCP Server 能力开发，符合大赛「基于麦当劳 MCP 能力开发你的创意 Skill」主题要求。主交付 `maimai-combo.html` 由 `SKILL-mood-diner.md` 定义的 Skill 驱动，数据全部来自官方 MCP 真实返回。
