@@ -478,7 +478,6 @@ function renderMenu(){
       ${stk?`<div class="sticker">${stk}</div>`:''}
       <div class="frame">
         ${i.img?`<img class="pic" src="${i.img}" alt="${i.name}" onerror="this.style.display='none'">`:`<div class="pic" style="display:grid;place-items:center;font-size:11px;color:#bba">无图</div>`}
-        ${off?`<div class="badge">${archBadge('#DA291C')}</div>`:''}
       </div>
       <div class="nm">${i.name}</div>
       <div class="pr"><b><i>¥</i>${i.price}</b>${off?`<s>¥${i.orig}</s>`:''}</div>
@@ -486,7 +485,6 @@ function renderMenu(){
     </div>`;
   }).join("");
 }
-function archBadge(color){ return `<svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="${color}"/><path d="M9 23V12c0-4 3-6 6-6s6 2 6 6v11" fill="none" stroke="#FFC72C" stroke-width="3.4" stroke-linecap="round"/></svg>`; }
 function addItem(code, ev){
   state.cart[code]=(state.cart[code]||0)+1;
   if(ev) flyToPlate(ev.currentTarget, code);
